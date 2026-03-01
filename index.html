@@ -1,157 +1,70 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Simulador Académico de Probabilidad</title>
+    <meta charset="UTF-8">
+    <title>ProbLab – Distribuciones de Probabilidad</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-body {
-    font-family: "Georgia", serif;
-    background-color: #ffffff;
-    color: #1e293b;
-    margin: 0;
-    padding: 0;
-}
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
-header {
-    background-color: #0f172a;
-    color: white;
-    padding: 30px;
-    text-align: center;
-}
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
 
-section {
-    max-width: 800px;
-    margin: 40px auto;
-    padding: 20px;
-}
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-h1, h2 {
-    font-weight: normal;
-}
-
-select, input {
-    width: 100%;
-    padding: 8px;
-    margin: 10px 0;
-    border: 1px solid #cbd5e1;
-}
-
-button {
-    background-color: #1d4ed8;
-    color: white;
-    padding: 10px;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-}
-
-button:hover {
-    background-color: #1e40af;
-}
-
-.resultado {
-    margin-top: 20px;
-    padding: 15px;
-    background-color: #f1f5f9;
-    border-left: 4px solid #1d4ed8;
-}
-</style>
+    <!-- jStat -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstat/1.9.4/jstat.min.js"></script>
 </head>
-
 <body>
 
 <header>
-<h1>Simulador Académico de Distribuciones de Probabilidad</h1>
-<p>Herramienta educativa interactiva para el estudio de modelos probabilísticos clásicos.</p>
+    <h1>ProbLab</h1>
+    <p>Visualizador interactivo de distribuciones de probabilidad</p>
 </header>
 
-<section>
+<section class="card">
 
-<h2>1. Seleccione la distribución</h2>
+    <div class="form-group">
+        <label>Distribución</label>
+        <select id="distribution">
+            <option value="normal">Normal</option>
+            <option value="binomial">Binomial</option>
+            <option value="poisson">Poisson</option>
+        </select>
+    </div>
 
-<select id="dist" onchange="cambiarFormulario()">
-<option value="binomial">Binomial</option>
-<option value="poisson">Poisson</option>
-</select>
+    <div id="parameters"></div>
 
-<div id="formulario"></div>
+    <div class="form-group">
+        <label>Tipo de cálculo</label>
+        <select id="calculation">
+            <option value="pdf">Función de densidad / probabilidad</option>
+            <option value="cdf">Probabilidad acumulada</option>
+            <option value="quantile">Cuantil</option>
+        </select>
+    </div>
 
-<button onclick="calcular()">Calcular</button>
+    <div class="form-group">
+        <label>Valor x</label>
+        <input type="number" id="xValue" value="0">
+    </div>
 
-<div class="resultado" id="resultado"></div>
+    <button onclick="calculate()">Calcular</button>
+
+    <div id="result"></div>
 
 </section>
 
-<section>
-<h2>2. Contexto Teórico</h2>
-<p>
-La distribución binomial modeliza el número de éxitos en n ensayos independientes con probabilidad constante p.
-La distribución de Poisson modeliza el número de eventos que ocurren en un intervalo fijo cuando estos ocurren con tasa media λ.
-</p>
+<section class="card">
+    <canvas id="chart"></canvas>
 </section>
 
-<script>
-function cambiarFormulario() {
-    let dist = document.getElementById("dist").value;
-    let form = document.getElementById("formulario");
+<footer>
+    © 2026 ProbLab · Creado por Vicente Castellar
+</footer>
 
-    if (dist === "binomial") {
-        form.innerHTML = `
-        <label>Probabilidad de éxito (p)</label>
-        <input type="number" id="p" step="0.01" min="0" max="1">
-
-        <label>Número de ensayos (n)</label>
-        <input type="number" id="n">
-
-        <label>Número de éxitos (k)</label>
-        <input type="number" id="k">
-        `;
-    } else {
-        form.innerHTML = `
-        <label>Tasa media (λ)</label>
-        <input type="number" id="lambda" step="0.01">
-
-        <label>Número de eventos (k)</label>
-        <input type="number" id="k">
-        `;
-    }
-}
-
-function factorial(x) {
-    if (x === 0) return 1;
-    return x * factorial(x - 1);
-}
-
-function combinatoria(n, k) {
-    return factorial(n) / (factorial(k) * factorial(n - k));
-}
-
-function calcular() {
-    let dist = document.getElementById("dist").value;
-    let resultado = document.getElementById("resultado");
-
-    if (dist === "binomial") {
-        let p = parseFloat(document.getElementById("p").value);
-        let n = parseInt(document.getElementById("n").value);
-        let k = parseInt(document.getElementById("k").value);
-
-        let prob = combinatoria(n,k) * Math.pow(p,k) * Math.pow(1-p,n-k);
-        resultado.innerHTML = "Probabilidad P(X = k) = " + prob.toFixed(6);
-    }
-
-    if (dist === "poisson") {
-        let lambda = parseFloat(document.getElementById("lambda").value);
-        let k = parseInt(document.getElementById("k").value);
-
-        let prob = (Math.pow(lambda,k) * Math.exp(-lambda)) / factorial(k);
-        resultado.innerHTML = "Probabilidad P(X = k) = " + prob.toFixed(6);
-    }
-}
-
-cambiarFormulario();
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
