@@ -3,6 +3,14 @@ let chart;
 document.getElementById("distribution").addEventListener("change", loadParameters);
 loadParameters();
 
+document.addEventListener("DOMContentLoaded", function() {
+    alert("JS cargado correctamente");
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    alert("JS cargado correctamente");
+});
+
 function loadParameters() {
     const dist = document.getElementById("distribution").value;
     const container = document.getElementById("parameters");
