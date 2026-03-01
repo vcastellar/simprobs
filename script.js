@@ -15,7 +15,7 @@ function loadParameters() {
             </div>
             <div class="form-group">
                 <label>Desviación típica (σ)</label>
-                <input type="number" id="param2" value="1">
+                <input type="number" id="param2" value="1" min="0.0001">
             </div>
         `;
     }
@@ -24,11 +24,11 @@ function loadParameters() {
         container.innerHTML = `
             <div class="form-group">
                 <label>n</label>
-                <input type="number" id="param1" value="10">
+                <input type="number" id="param1" value="10" min="1">
             </div>
             <div class="form-group">
-                <label>p</label>
-                <input type="number" id="param2" value="0.5">
+                <label>p (entre 0 y 1)</label>
+                <input type="number" id="param2" value="0.5" step="0.01" min="0" max="1">
             </div>
         `;
     }
@@ -37,7 +37,7 @@ function loadParameters() {
         container.innerHTML = `
             <div class="form-group">
                 <label>λ</label>
-                <input type="number" id="param1" value="4">
+                <input type="number" id="param1" value="4" min="0.0001">
             </div>
         `;
     }
@@ -49,36 +49,53 @@ function calculate() {
     const calc = document.getElementById("calculation").value;
     const x = parseFloat(document.getElementById("xValue").value);
     const p1 = parseFloat(document.getElementById("param1").value);
-    const p2 = document.getElementById("param2") ? 
+    const p2 = document.getElementById("param2") ?
                parseFloat(document.getElementById("param2").value) : null;
 
-    let result;
+    let result = null;
 
-    if (dist === "normal") {
-        if (calc === "pdf") result = jStat.normal.pdf(x, p1, p2);
-        if (calc === "cdf") result = jStat.normal.cdf(x, p1, p2);
-        if (calc === "quantile") result = jStat.normal.inv(x, p1, p2);
+    try {
+
+        if (dist === "normal") {
+            if (calc === "pdf") result = jStat.normal.pdf(x, p1, p2);
+            if (calc === "cdf") result = jStat.normal.cdf(x, p1, p2);
+            if (calc === "quantile") {
+                if (x < 0 || x > 1) throw "El cuantil requiere x entre 0 y 1";
+                result = jStat.normal.inv(x, p1, p2);
+            }
+        }
+
+        if (dist === "binomial") {
+            if (calc === "pdf") result = jStat.binomial.pdf(x, p1, p2);
+            if (calc === "cdf") result = jStat.binomial.cdf(x, p1, p2);
+            if (calc === "quantile") {
+                if (x < 0 || x > 1) throw "El cuantil requiere x entre 0 y 1";
+                result = jStat.binomial.inv(x, p1, p2);
+            }
+        }
+
+        if (dist === "poisson") {
+            if (calc === "pdf") result = jStat.poisson.pdf(x, p1);
+            if (calc === "cdf") result = jStat.poisson.cdf(x, p1);
+            if (calc === "quantile") {
+                if (x < 0 || x > 1) throw "El cuantil requiere x entre 0 y 1";
+                result = jStat.poisson.inv(x, p1);
+            }
+        }
+
+        if (result === null || isNaN(result)) throw "Valores inválidos";
+
+        document.getElementById("result").innerText =
+            "Resultado: " + result.toFixed(6);
+
+        drawChart(dist, p1, p2, calc, x);
+
+    } catch (error) {
+        document.getElementById("result").innerText = "Error: " + error;
     }
-
-    if (dist === "binomial") {
-        if (calc === "pdf") result = jStat.binomial.pdf(x, p1, p2);
-        if (calc === "cdf") result = jStat.binomial.cdf(x, p1, p2);
-        if (calc === "quantile") result = jStat.binomial.inv(x, p1, p2);
-    }
-
-    if (dist === "poisson") {
-        if (calc === "pdf") result = jStat.poisson.pdf(x, p1);
-        if (calc === "cdf") result = jStat.poisson.cdf(x, p1);
-        if (calc === "quantile") result = jStat.poisson.inv(x, p1);
-    }
-
-    document.getElementById("result").innerText = 
-        "Resultado: " + result.toFixed(6);
-
-    drawChart(dist, p1, p2);
 }
 
-function drawChart(dist, p1, p2) {
+function drawChart(dist, p1, p2, calc, xValue) {
 
     const ctx = document.getElementById("chart").getContext("2d");
 
@@ -86,25 +103,45 @@ function drawChart(dist, p1, p2) {
 
     let labels = [];
     let data = [];
+    let backgroundColors = [];
 
     if (dist === "normal") {
-        for (let i = -5; i <= 5; i += 0.1) {
+
+        for (let i = p1 - 4*p2; i <= p1 + 4*p2; i += p2/20) {
             labels.push(i);
-            data.push(jStat.normal.pdf(i, p1, p2));
+            let y = jStat.normal.pdf(i, p1, p2);
+            data.push(y);
+
+            if (calc === "cdf" && i <= xValue)
+                backgroundColors.push("rgba(37, 99, 235, 0.3)");
+            else
+                backgroundColors.push("rgba(37, 99, 235, 0.05)");
         }
     }
 
     if (dist === "binomial") {
         for (let i = 0; i <= p1; i++) {
             labels.push(i);
-            data.push(jStat.binomial.pdf(i, p1, p2));
+            let y = jStat.binomial.pdf(i, p1, p2);
+            data.push(y);
+
+            if (calc === "cdf" && i <= xValue)
+                backgroundColors.push("rgba(37, 99, 235, 0.5)");
+            else
+                backgroundColors.push("rgba(37, 99, 235, 0.2)");
         }
     }
 
     if (dist === "poisson") {
-        for (let i = 0; i <= 20; i++) {
+        for (let i = 0; i <= p1*3; i++) {
             labels.push(i);
-            data.push(jStat.poisson.pdf(i, p1));
+            let y = jStat.poisson.pdf(i, p1);
+            data.push(y);
+
+            if (calc === "cdf" && i <= xValue)
+                backgroundColors.push("rgba(37, 99, 235, 0.5)");
+            else
+                backgroundColors.push("rgba(37, 99, 235, 0.2)");
         }
     }
 
@@ -113,9 +150,11 @@ function drawChart(dist, p1, p2) {
         data: {
             labels: labels,
             datasets: [{
-                label: "Función",
                 data: data,
-                borderWidth: 2
+                borderColor: "#2563eb",
+                backgroundColor: backgroundColors,
+                fill: dist === "normal",
+                tension: 0.3
             }]
         },
         options: {
