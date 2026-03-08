@@ -57,6 +57,13 @@ body {
     line-height: 1.55;
 }
 
+.hero-intro {
+    margin: 10px 0 0;
+    max-width: 860px;
+    color: #475569;
+    line-height: 1.6;
+}
+
 .app-shell {
     display: grid;
     grid-template-columns: 380px minmax(0, 1fr);
