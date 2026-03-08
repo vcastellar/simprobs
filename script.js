@@ -1,5 +1,28 @@
 let chart;
 
+
+const distributionDescriptions = {
+    normal: "Distribución continua y simétrica en forma de campana, definida por su media (μ) y desviación típica (σ).",
+    binomial: "Distribución discreta que modela el número de éxitos en n ensayos independientes con probabilidad p.",
+    poisson: "Distribución discreta para contar eventos en un intervalo cuando ocurren con tasa media λ.",
+    studentt: "Distribución continua similar a la normal, con colas más pesadas, usada con muestras pequeñas.",
+    chisquare: "Distribución continua de valores no negativos, común en pruebas de ajuste y análisis de varianza.",
+    centralf: "Distribución continua que compara dos varianzas y se utiliza en contrastes F (por ejemplo, ANOVA).",
+    exponential: "Distribución continua para tiempos de espera entre eventos de un proceso de Poisson, con tasa λ.",
+    negbin: "Distribución discreta que modela el número de fracasos antes de alcanzar r éxitos con probabilidad p.",
+    geometric: "Distribución discreta que da el número de ensayos hasta el primer éxito con probabilidad p constante."
+};
+
+function updateDistributionDescription(dist) {
+    const descriptionEl = document.getElementById("distributionDescription");
+
+    if (!descriptionEl) {
+        return;
+    }
+
+    descriptionEl.textContent = distributionDescriptions[dist] || "";
+}
+
 const referenceLinePlugin = {
     id: "referenceLinePlugin",
     afterDatasetsDraw(chartInstance, _, pluginOptions) {
@@ -275,6 +298,8 @@ function negativeBinomialQuantile(probability, r, p) {
 function loadParameters() {
     const dist = document.getElementById("distribution").value;
     const container = document.getElementById("parameters");
+
+    updateDistributionDescription(dist);
 
     if (dist === "normal") {
         container.innerHTML = `

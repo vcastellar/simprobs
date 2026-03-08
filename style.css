@@ -57,6 +57,14 @@ header p {
     margin-bottom: 18px;
 }
 
+
+.distribution-description {
+    margin: 10px 0 0;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
 label {
     display: block;
     margin-bottom: 6px;
