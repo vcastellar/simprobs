@@ -1,3 +1,3 @@
 # simprobs
 pequeño web de simulación de distribuciones de probabilidad 
-https://vsebastia.github.io/simprobs/
+problabtools.es
