@@ -787,3 +787,284 @@ function drawChart(dist, p1, p2, calc, xValue, cdfMode = "left", bValue = null, 
         }
     });
 }
+
+function updateSampleSizeControls() {
+    const typeEl = document.getElementById("sampleSizeType");
+    const onePropInputs = document.getElementById("onePropInputs");
+    const twoPropInputs = document.getElementById("twoPropInputs");
+    const oneMeanInputs = document.getElementById("oneMeanInputs");
+    const twoMeanInputs = document.getElementById("twoMeanInputs");
+
+    const twoPropAllocation = document.getElementById("twoPropAllocation");
+    const twoPropRatioGroup = document.getElementById("twoPropRatioGroup");
+    const twoMeanAllocation = document.getElementById("twoMeanAllocation");
+    const twoMeanRatioGroup = document.getElementById("twoMeanRatioGroup");
+
+    if (!typeEl || !onePropInputs || !twoPropInputs || !oneMeanInputs || !twoMeanInputs) {
+        return;
+    }
+
+    onePropInputs.hidden = typeEl.value !== "oneprop";
+    twoPropInputs.hidden = typeEl.value !== "twoprop";
+    oneMeanInputs.hidden = typeEl.value !== "onemean";
+    twoMeanInputs.hidden = typeEl.value !== "twomean";
+
+    if (twoPropAllocation && twoPropRatioGroup) {
+        twoPropRatioGroup.hidden = typeEl.value !== "twoprop" || twoPropAllocation.value !== "custom";
+    }
+
+    if (twoMeanAllocation && twoMeanRatioGroup) {
+        twoMeanRatioGroup.hidden = typeEl.value !== "twomean" || twoMeanAllocation.value !== "custom";
+    }
+
+    renderSampleSizeFormula(typeEl.value);
+}
+
+function validateProbability(value, name) {
+    if (!Number.isFinite(value) || value <= 0 || value >= 1) {
+        throw `${name} debe estar entre 0 y 1 (sin incluir extremos)`;
+    }
+}
+
+function validatePositive(value, name) {
+    if (!Number.isFinite(value) || value <= 0) {
+        throw `${name} debe ser mayor que 0`;
+    }
+}
+
+function getStandardNormalQuantile(probability) {
+    return jStat.normal.inv(probability, 0, 1);
+}
+
+function getAllocationRatio(allocationId, ratioId) {
+    const allocationEl = document.getElementById(allocationId);
+    const ratioEl = document.getElementById(ratioId);
+
+    if (!allocationEl || allocationEl.value === "equal") {
+        return 1;
+    }
+
+    const k = ratioEl ? parseFloat(ratioEl.value) : NaN;
+
+    if (!Number.isFinite(k) || k <= 0) {
+        throw "La razón n2/n1 (k) debe ser mayor que 0";
+    }
+
+    return k;
+}
+
+function calculateSampleSize() {
+    const resultEl = document.getElementById("sampleSizeResult");
+    const typeEl = document.getElementById("sampleSizeType");
+
+    if (!resultEl || !typeEl) {
+        return;
+    }
+
+    try {
+        if (typeEl.value === "oneprop") {
+            const p = parseFloat(document.getElementById("onePropP").value);
+            const e = parseFloat(document.getElementById("onePropE").value);
+            const confidence = parseFloat(document.getElementById("onePropConfidence").value);
+
+            validateProbability(p, "p");
+            validateProbability(e, "E");
+            validateProbability(confidence, "El nivel de confianza");
+
+            const alpha = 1 - confidence;
+            const z = getStandardNormalQuantile(1 - (alpha / 2));
+            const n = Math.ceil((Math.pow(z, 2) * p * (1 - p)) / Math.pow(e, 2));
+            renderSampleSizeFormula("oneprop", { z, p, e });
+
+            resultEl.innerText = `n mínimo recomendado: ${n} observaciones (una proporción, ${Math.round(confidence * 100)}% de confianza).`;
+            return;
+        }
+
+        if (typeEl.value === "twoprop") {
+            const p1 = parseFloat(document.getElementById("twoPropP1").value);
+            const p2 = parseFloat(document.getElementById("twoPropP2").value);
+            const alpha = parseFloat(document.getElementById("twoPropAlpha").value);
+            const power = parseFloat(document.getElementById("twoPropPower").value);
+            const k = getAllocationRatio("twoPropAllocation", "twoPropRatio");
+
+            validateProbability(p1, "p1");
+            validateProbability(p2, "p2");
+            validateProbability(alpha, "α");
+            validateProbability(power, "La potencia");
+
+            const diff = Math.abs(p1 - p2);
+            validatePositive(diff, "|p1 - p2|");
+
+            const zAlpha = getStandardNormalQuantile(1 - (alpha / 2));
+            const zBeta = getStandardNormalQuantile(power);
+            const pBar = (p1 + (k * p2)) / (1 + k);
+
+            const term1 = zAlpha * Math.sqrt((1 + (1 / k)) * pBar * (1 - pBar));
+            const term2 = zBeta * Math.sqrt((p1 * (1 - p1)) + ((p2 * (1 - p2)) / k));
+
+            const n1 = Math.ceil(Math.pow(term1 + term2, 2) / Math.pow(diff, 2));
+            const n2 = Math.ceil(k * n1);
+            const nTotal = n1 + n2;
+
+            renderSampleSizeFormula("twoprop", { zAlpha, zBeta, pBar, p1, p2, diff, k });
+
+            if (Math.abs(k - 1) < 1e-10) {
+                resultEl.innerText = `n mínimo por grupo: ${n1} (total: ${nTotal}) para detectar |p1 - p2| = ${diff.toFixed(3)}.`;
+            } else {
+                resultEl.innerText = `n mínimo grupo 1: ${n1}; grupo 2: ${n2} (k = ${k.toFixed(2)}, total: ${nTotal}) para detectar |p1 - p2| = ${diff.toFixed(3)}.`;
+            }
+            return;
+        }
+
+        if (typeEl.value === "onemean") {
+            const sigma = parseFloat(document.getElementById("oneMeanSigma").value);
+            const e = parseFloat(document.getElementById("oneMeanE").value);
+            const confidence = parseFloat(document.getElementById("oneMeanConfidence").value);
+
+            validatePositive(sigma, "σ");
+            validatePositive(e, "E");
+            validateProbability(confidence, "El nivel de confianza");
+
+            const alpha = 1 - confidence;
+            const z = getStandardNormalQuantile(1 - (alpha / 2));
+            const n = Math.ceil(Math.pow((z * sigma) / e, 2));
+
+            renderSampleSizeFormula("onemean", { z, sigma, e });
+            resultEl.innerText = `n mínimo recomendado: ${n} observaciones (una media, ${Math.round(confidence * 100)}% de confianza).`;
+            return;
+        }
+
+        if (typeEl.value === "twomean") {
+            const sigma1 = parseFloat(document.getElementById("twoMeanSigma1").value);
+            const sigma2 = parseFloat(document.getElementById("twoMeanSigma2").value);
+            const delta = parseFloat(document.getElementById("twoMeanDelta").value);
+            const alpha = parseFloat(document.getElementById("twoMeanAlpha").value);
+            const power = parseFloat(document.getElementById("twoMeanPower").value);
+            const k = getAllocationRatio("twoMeanAllocation", "twoMeanRatio");
+
+            validatePositive(sigma1, "σ1");
+            validatePositive(sigma2, "σ2");
+            validatePositive(delta, "Δ");
+            validateProbability(alpha, "α");
+            validateProbability(power, "La potencia");
+
+            const zAlpha = getStandardNormalQuantile(1 - (alpha / 2));
+            const zBeta = getStandardNormalQuantile(power);
+
+            const n1 = Math.ceil((Math.pow(zAlpha + zBeta, 2) * (Math.pow(sigma1, 2) + (Math.pow(sigma2, 2) / k))) / Math.pow(delta, 2));
+            const n2 = Math.ceil(k * n1);
+            const nTotal = n1 + n2;
+
+            renderSampleSizeFormula("twomean", { zAlpha, zBeta, sigma1, sigma2, delta, k });
+
+            if (Math.abs(k - 1) < 1e-10) {
+                resultEl.innerText = `n mínimo por grupo: ${n1} (total: ${nTotal}) para detectar Δ = ${delta.toFixed(3)}.`;
+            } else {
+                resultEl.innerText = `n mínimo grupo 1: ${n1}; grupo 2: ${n2} (k = ${k.toFixed(2)}, total: ${nTotal}) para detectar Δ = ${delta.toFixed(3)}.`;
+            }
+            return;
+        }
+
+        throw "Tipo de cálculo no soportado";
+    } catch (error) {
+        resultEl.innerText = `Error: ${error}`;
+    }
+}
+
+function initSampleSizeSection() {
+    const typeEl = document.getElementById("sampleSizeType");
+    const twoPropAllocation = document.getElementById("twoPropAllocation");
+    const twoMeanAllocation = document.getElementById("twoMeanAllocation");
+
+    if (!typeEl) {
+        return;
+    }
+
+    typeEl.addEventListener("change", updateSampleSizeControls);
+
+    if (twoPropAllocation) {
+        twoPropAllocation.addEventListener("change", updateSampleSizeControls);
+    }
+
+    if (twoMeanAllocation) {
+        twoMeanAllocation.addEventListener("change", updateSampleSizeControls);
+    }
+
+    updateSampleSizeControls();
+}
+
+initSampleSizeSection();
+
+function renderSampleSizeFormula(type, values = null) {
+    const formulaEl = document.getElementById("sampleSizeFormula");
+
+    if (!formulaEl) {
+        return;
+    }
+
+    if (type === "oneprop") {
+        if (!values) {
+            formulaEl.innerHTML = "<strong>Fórmula usada (una proporción):</strong><br><code>n = (Z² · p · (1 - p)) / E²</code>";
+            return;
+        }
+
+        formulaEl.innerHTML = `<strong>Fórmula usada (una proporción):</strong><br><code>n = (Z² · p · (1 - p)) / E²</code><br><code>n = (${values.z.toFixed(4)}² · ${values.p.toFixed(4)} · (1 - ${values.p.toFixed(4)})) / ${values.e.toFixed(4)}²</code>`;
+        return;
+    }
+
+    if (type === "twoprop") {
+        const kPreview = values ? values.k : (() => {
+            try { return getAllocationRatio("twoPropAllocation", "twoPropRatio"); } catch (_) { return 1; }
+        })();
+
+        if (!values) {
+            if (Math.abs(kPreview - 1) < 1e-10) {
+                formulaEl.innerHTML = "<strong>Fórmula usada (dos proporciones, n por grupo):</strong><br><code>n = ((Zα/2·√(2·p̄·(1-p̄)) + Zβ·√(p1·(1-p1)+p2·(1-p2)))²) / (p1-p2)²</code>";
+            } else {
+                formulaEl.innerHTML = `<strong>Fórmula usada (dos proporciones, grupos distintos):</strong><br><code>n1 = ((Zα/2·√((1+1/k)·p̄·(1-p̄)) + Zβ·√(p1·(1-p1) + (p2·(1-p2))/k))²) / (p1-p2)²</code><br><code>n2 = k·n1, con p̄ = (p1 + k·p2)/(1 + k), k = ${kPreview.toFixed(3)}</code>`;
+            }
+            return;
+        }
+
+        if (Math.abs(values.k - 1) < 1e-10) {
+            formulaEl.innerHTML = `<strong>Fórmula usada (dos proporciones, n por grupo):</strong><br><code>n = ((Zα/2·√(2·p̄·(1-p̄)) + Zβ·√(p1·(1-p1)+p2·(1-p2)))²) / (p1-p2)²</code><br><code>n = ((${values.zAlpha.toFixed(4)}·√(2·${values.pBar.toFixed(4)}·(1-${values.pBar.toFixed(4)})) + ${values.zBeta.toFixed(4)}·√(${values.p1.toFixed(4)}·(1-${values.p1.toFixed(4)})+${values.p2.toFixed(4)}·(1-${values.p2.toFixed(4)})))²) / (${values.diff.toFixed(4)})²</code>`;
+        } else {
+            formulaEl.innerHTML = `<strong>Fórmula usada (dos proporciones, grupos distintos):</strong><br><code>n1 = ((Zα/2·√((1+1/k)·p̄·(1-p̄)) + Zβ·√(p1·(1-p1) + (p2·(1-p2))/k))²) / (p1-p2)²</code><br><code>n2 = k·n1, p̄ = (p1 + k·p2)/(1 + k)</code><br><code>n1 = ((${values.zAlpha.toFixed(4)}·√((1+1/${values.k.toFixed(4)})·${values.pBar.toFixed(4)}·(1-${values.pBar.toFixed(4)})) + ${values.zBeta.toFixed(4)}·√(${values.p1.toFixed(4)}·(1-${values.p1.toFixed(4)}) + (${values.p2.toFixed(4)}·(1-${values.p2.toFixed(4)}))/${values.k.toFixed(4)}))²) / (${values.diff.toFixed(4)})²</code>`;
+        }
+        return;
+    }
+
+    if (type === "onemean") {
+        if (!values) {
+            formulaEl.innerHTML = "<strong>Fórmula usada (una media):</strong><br><code>n = (Z · σ / E)²</code>";
+            return;
+        }
+
+        formulaEl.innerHTML = `<strong>Fórmula usada (una media):</strong><br><code>n = (Z · σ / E)²</code><br><code>n = (${values.z.toFixed(4)} · ${values.sigma.toFixed(4)} / ${values.e.toFixed(4)})²</code>`;
+        return;
+    }
+
+    if (type === "twomean") {
+        const kPreview = values ? values.k : (() => {
+            try { return getAllocationRatio("twoMeanAllocation", "twoMeanRatio"); } catch (_) { return 1; }
+        })();
+
+        if (!values) {
+            if (Math.abs(kPreview - 1) < 1e-10) {
+                formulaEl.innerHTML = "<strong>Fórmula usada (diferencia de medias, n por grupo):</strong><br><code>n = ((Zα/2 + Zβ)² · (σ1² + σ2²)) / Δ²</code>";
+            } else {
+                formulaEl.innerHTML = `<strong>Fórmula usada (diferencia de medias, grupos distintos):</strong><br><code>n1 = ((Zα/2 + Zβ)² · (σ1² + σ2²/k)) / Δ²</code><br><code>n2 = k·n1, con k = ${kPreview.toFixed(3)}</code>`;
+            }
+            return;
+        }
+
+        if (Math.abs(values.k - 1) < 1e-10) {
+            formulaEl.innerHTML = `<strong>Fórmula usada (diferencia de medias, n por grupo):</strong><br><code>n = ((Zα/2 + Zβ)² · (σ1² + σ2²)) / Δ²</code><br><code>n = ((${values.zAlpha.toFixed(4)} + ${values.zBeta.toFixed(4)})² · (${values.sigma1.toFixed(4)}² + ${values.sigma2.toFixed(4)}²)) / ${values.delta.toFixed(4)}²</code>`;
+        } else {
+            formulaEl.innerHTML = `<strong>Fórmula usada (diferencia de medias, grupos distintos):</strong><br><code>n1 = ((Zα/2 + Zβ)² · (σ1² + σ2²/k)) / Δ²</code><br><code>n2 = k·n1</code><br><code>n1 = ((${values.zAlpha.toFixed(4)} + ${values.zBeta.toFixed(4)})² · (${values.sigma1.toFixed(4)}² + ${values.sigma2.toFixed(4)}²/${values.k.toFixed(4)})) / ${values.delta.toFixed(4)}²</code>`;
+        }
+        return;
+    }
+
+    formulaEl.innerHTML = "Fórmula pendiente…";
+}
