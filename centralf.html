@@ -20,6 +20,37 @@
         <p class="hero-links"><a href="index.html#calculator">Ver calculadora general</a></p>
     </header>
 
+    <article class="card content-card">
+<h2>Distribución F de Snedecor</h2>
+
+<h2>Explicación sencilla</h2>
+<p>La distribución F de Snedecor surge como el cociente entre dos variables chi-cuadrado independientes 
+normalizadas por sus grados de libertad. Solo toma valores positivos y es asimétrica hacia la derecha. 
+Se utiliza principalmente en estadística inferencial para comparar varianzas y en el análisis de varianza 
+(ANOVA), donde permite evaluar si varios grupos tienen medias significativamente diferentes.</p>
+
+<h3>Fórmula</h3>
+<p class="formula-line">
+\( 
+f(x)=\frac{\sqrt{\frac{(d_1 x)^{d_1} d_2^{d_2}}{(d_1 x+d_2)^{d_1+d_2}}}}{x\,B\!\left(\frac{d_1}{2},\frac{d_2}{2}\right)} 
+\)
+</p>
+
+<h3>Parámetros</h3>
+<ul>
+<li><strong>d₁:</strong> grados de libertad del numerador.</li>
+<li><strong>d₂:</strong> grados de libertad del denominador.</li>
+</ul>
+
+<h3>Ejemplos reales y uso</h3>
+<p>Supón que quieres comparar la variabilidad de dos procesos de fabricación o evaluar si varios 
+tratamientos producen diferencias significativas en un experimento. En análisis de varianza (ANOVA), 
+la estadística F compara la variación entre grupos con la variación dentro de los grupos. 
+En la calculadora, selecciona <em>F de Snedecor</em>, introduce los grados de libertad 
+\(d_1\) y \(d_2\), y usa la CDF para obtener probabilidades acumuladas o los cuantiles para 
+calcular valores críticos en contrastes estadísticos.</p>
+</article>
+
     <main>
         <section class="app-shell" aria-label="Calculadora F de Snedecor">
             <section class="card control-panel">
@@ -101,12 +132,9 @@
 
 <script>
 window.MathJax = {
-  tex: {
-    inlineMath: [['\\(', '\\)'], ['$', '$']]
-  }
+  tex: { inlineMath: [['\(', '\)'], ['$', '$']] }
 };
 </script>
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstat/1.9.4/jstat.min.js"></script>
