@@ -20,6 +20,21 @@
         <p class="hero-links"><a href="index.html#calculator">Ver calculadora general</a></p>
     </header>
 
+    <article class="card content-card">
+        <h2>Distribución exponencial</h2>
+        <h3>Explicación sencilla</h3>
+        <p>La distribución exponencial modela tiempos de espera entre eventos cuando estos ocurren a tasa constante e independiente (un escenario típico de procesos de Poisson). Es una distribución continua definida para valores no negativos y tiene la propiedad de “falta de memoria”: la probabilidad de esperar un tiempo adicional no depende de cuánto ya se haya esperado.</p>
+        <h3>Fórmula</h3>
+        <p class="formula-line">\( f(x;\lambda)=\lambda e^{-\lambda x},\quad x\geq 0 \)</p>
+        <h3>Parámetros</h3>
+        <ul>
+            <li><strong>λ (lambda):</strong> tasa media de ocurrencia por unidad de tiempo (o espacio).</li>
+            <li><strong>x:</strong> tiempo de espera hasta que ocurre el evento.</li>
+        </ul>
+        <h3>Ejemplos reales y uso</h3>
+        <p>En un sistema donde llegan llamadas con una tasa media de 12 por hora, el tiempo entre llamadas puede modelarse con una exponencial. Con la calculadora puedes estimar la probabilidad de que el tiempo de espera sea menor que 3 minutos, mayor que 10 minutos o encontrar el cuantil correspondiente a un nivel de servicio concreto.</p>
+    </article>
+
     <main>
         <section class="app-shell" aria-label="Calculadora Exponencial">
             <section class="card control-panel">
@@ -93,11 +108,6 @@
             </section>
         </section>
 
-        <section class="card content-card" aria-label="Explicación sencilla de la distribución exponencial">
-            <h2>Explicación sencilla</h2>
-            <p>La distribución exponencial modela tiempos de espera entre eventos cuando estos ocurren a tasa constante e independiente (un escenario típico de procesos de Poisson). Es una distribución continua definida para valores no negativos y tiene la propiedad de “falta de memoria”: la probabilidad de esperar un tiempo adicional no depende de cuánto ya se haya esperado.</p>
-        </section>
-
     </main>
 
     <footer>
@@ -107,7 +117,7 @@
 
 <script>
 window.MathJax = {
-  tex: { inlineMath: [['\(', '\)'], ['$', '$']] }
+  tex: { inlineMath: [['\\(', '\\)'], ['$', '$']] }
 };
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" defer></script>
