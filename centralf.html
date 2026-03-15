@@ -31,8 +31,12 @@ Se utiliza principalmente en estadística inferencial para comparar varianzas y 
 
 <h3>Fórmula</h3>
 <p class="formula-line">
-\( 
-f(x)=\frac{\sqrt{\frac{(d_1 x)^{d_1} d_2^{d_2}}{(d_1 x+d_2)^{d_1+d_2}}}}{x\,B\!\left(\frac{d_1}{2},\frac{d_2}{2}\right)} 
+\(
+f(x)=
+\frac{1}{B\!\left(\frac{d_1}{2},\frac{d_2}{2}\right)}
+\left(\frac{d_1}{d_2}\right)^{\frac{d_1}{2}}
+x^{\frac{d_1}{2}-1}
+\left(1+\frac{d_1}{d_2}x\right)^{-\frac{d_1+d_2}{2}}
 \)
 </p>
 
