@@ -87,6 +87,12 @@ body {
     align-items: start;
 }
 
+main > .app-shell {
+    margin-top: 22px;
+    padding-top: 22px;
+    border-top: 1px solid rgba(148, 163, 184, 0.26);
+}
+
 .card {
     border-radius: 22px;
     padding: 24px;
