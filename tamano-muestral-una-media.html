@@ -61,7 +61,6 @@
 
             <button class="calculate-btn" id="oneMeanCalculateBtn">Calcular tamaño muestral</button>
             <div id="oneMeanResult" class="result-box">Resultado pendiente…</div>
-            <div id="oneMeanFormula" class="formula-box">Fórmula pendiente…</div>
         </section>
     </main>
 
@@ -87,7 +86,6 @@ function calculateOneMeanSampleSize() {
     const e = parseFloat(document.getElementById("oneMeanE").value);
     const confidence = parseFloat(document.getElementById("oneMeanConfidence").value);
     const resultEl = document.getElementById("oneMeanResult");
-    const formulaEl = document.getElementById("oneMeanFormula");
 
     if (!Number.isFinite(sigma) || sigma <= 0) {
         resultEl.innerText = "Error: σ debe ser mayor que 0.";
@@ -107,7 +105,6 @@ function calculateOneMeanSampleSize() {
     const n = Math.ceil(Math.pow((z * sigma) / e, 2));
 
     resultEl.innerText = `n mínimo recomendado: ${n} observaciones (${Math.round(confidence * 100)}% de confianza).`;
-    formulaEl.innerHTML = `<strong>Fórmula usada:</strong><p class="formula-line">\\( n = \\left(\\frac{Z \\cdot \\sigma}{E}\\right)^2 \\)</p><p class="formula-line">\\( n = \\left(\\frac{${z.toFixed(4)} \\cdot ${sigma.toFixed(4)}}{${e.toFixed(4)}}\\right)^2 \\)</p>`;
     refreshMathJaxOneMean();
 }
 

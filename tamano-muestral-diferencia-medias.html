@@ -83,7 +83,6 @@
 
             <button class="calculate-btn" id="twoMeanCalculateBtn">Calcular tamaño muestral</button>
             <div id="twoMeanResult" class="result-box">Resultado pendiente…</div>
-            <div id="twoMeanFormula" class="formula-box">Fórmula pendiente…</div>
         </section>
     </main>
 
@@ -116,7 +115,6 @@ function getTwoMeanRatio() {
 
 function calculateTwoMeanSampleSize() {
     const resultEl = document.getElementById("twoMeanResult");
-    const formulaEl = document.getElementById("twoMeanFormula");
 
     try {
         const sigma1 = parseFloat(document.getElementById("twoMeanSigma1").value);
@@ -147,8 +145,6 @@ function calculateTwoMeanSampleSize() {
         resultEl.innerText = Math.abs(k - 1) < 1e-10
             ? `n mínimo por grupo: ${n1} (total: ${n1 + n2}).`
             : `n mínimo grupo 1: ${n1}; grupo 2: ${n2} (k=${k.toFixed(2)}, total: ${n1 + n2}).`;
-
-        formulaEl.innerHTML = `<strong>Fórmula usada:</strong><p class="formula-line">\\( n_1 = \\frac{(Z_{\\alpha/2}+Z_\\beta)^2(\\sigma_1^2+\\sigma_2^2/k)}{\\Delta^2} \\)</p><p class="formula-line">\\( n_2 = k\\,n_1 \\)</p>`;
         refreshMathJaxTwoMean();
     } catch (error) {
         resultEl.innerText = `Error: ${error.message}`;

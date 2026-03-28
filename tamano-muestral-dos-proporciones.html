@@ -77,7 +77,6 @@
 
             <button class="calculate-btn" id="twoPropCalculateBtn">Calcular tamaño muestral</button>
             <div id="twoPropResult" class="result-box">Resultado pendiente…</div>
-            <div id="twoPropFormula" class="formula-box">Fórmula pendiente…</div>
         </section>
     </main>
 
@@ -110,7 +109,6 @@ function getTwoPropRatio() {
 
 function calculateTwoPropSampleSize() {
     const resultEl = document.getElementById("twoPropResult");
-    const formulaEl = document.getElementById("twoPropFormula");
 
     try {
         const p1 = parseFloat(document.getElementById("twoPropP1").value);
@@ -146,8 +144,6 @@ function calculateTwoPropSampleSize() {
         resultEl.innerText = Math.abs(k - 1) < 1e-10
             ? `n mínimo por grupo: ${n1} (total: ${n1 + n2}).`
             : `n mínimo grupo 1: ${n1}; grupo 2: ${n2} (k=${k.toFixed(2)}, total: ${n1 + n2}).`;
-
-        formulaEl.innerHTML = `<strong>Fórmula usada:</strong><p class="formula-line">\\( n_1 = \\frac{(Z_{\\alpha/2}\\sqrt{(1+1/k)\\bar{p}(1-\\bar{p})} + Z_\\beta\\sqrt{p_1(1-p_1)+\\frac{p_2(1-p_2)}{k}})^2}{(p_1-p_2)^2} \\)</p><p class="formula-line">\\( n_2 = k\\,n_1,\\; \\bar{p}=\\frac{p_1 + kp_2}{1+k} \\)</p>`;
         refreshMathJaxTwoProp();
     } catch (error) {
         resultEl.innerText = `Error: ${error.message}`;
