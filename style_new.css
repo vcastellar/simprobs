@@ -111,53 +111,6 @@ body {
     margin-bottom: 0;
 }
 
-.affiliate-books-section {
-    margin-top: 20px;
-    max-width: 760px;
-}
-
-.affiliate-books-title {
-    margin: 0 0 10px;
-    font-size: 1.2rem;
-}
-
-.affiliate-books-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(170px, 220px));
-    gap: 14px;
-}
-
-.affiliate-book {
-    max-width: 220px;
-    display: flex;
-    flex-direction: column;
-}
-
-.affiliate-book-image {
-    width: 100%;
-    max-width: 220px;
-    height: 320px;
-    object-fit: contain;
-    border-radius: 14px;
-    border: 1px solid rgba(148, 163, 184, 0.35);
-    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.18);
-    display: block;
-    margin-bottom: 12px;
-    background: rgba(255, 255, 255, 0.82);
-}
-
-.affiliate-cta {
-    text-transform: lowercase;
-    margin-top: auto;
-}
-
-.affiliate-note {
-    margin: 0 0 12px;
-    font-size: 0.82rem;
-    line-height: 1.45;
-    color: #475569;
-}
-
 .app-shell {
     display: grid;
     grid-template-columns: 380px minmax(0, 1fr);
@@ -408,6 +361,33 @@ footer {
     padding: 28px 0 8px;
     color: #94a3b8;
     font-size: 0.84rem;
+}
+
+.legal-page {
+    max-width: 880px;
+    margin: 0 auto;
+}
+
+.legal-content {
+    line-height: 1.7;
+}
+
+.legal-content h1 {
+    margin-top: 0;
+    margin-bottom: 18px;
+}
+
+.legal-content h2 {
+    margin-top: 28px;
+    margin-bottom: 10px;
+}
+
+.legal-content ul {
+    padding-left: 20px;
+}
+
+.legal-footer {
+    padding-top: 18px;
 }
 
 @media (max-width: 1024px) {
