@@ -77,6 +77,16 @@ body {
     text-decoration: underline;
 }
 
+.hero-links .hero-link-button {
+    color: #ffffff;
+}
+
+.hero-links .hero-link-button:hover,
+.hero-links .hero-link-button:focus-visible {
+    color: #ffffff;
+    text-decoration: none;
+}
+
 .hero-link-button {
     display: inline-flex;
     align-items: center;
