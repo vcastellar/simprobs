@@ -124,321 +124,61 @@
 <div class="page-wrap">
     <header class="hero">
         <div>
-            <p class="eyebrow">Laboratorio estadístico</p>
+            
             <h1>Calculadoras estadísticas online</h1>
             <p class="hero-subtitle">Accede de forma directa a calculadoras de distribuciones, tamaño muestral y contrastes de hipótesis con una navegación clara y orientada a resolver dudas estadísticas reales.</p>
             <p class="hero-intro">En ProbLab tienes tres bloques principales: calculadora general de distribuciones, calculadora general de tamaño muestral y páginas específicas para contrastes de hipótesis. Todo desde una estructura simple y sin pasos redundantes.</p>
-            <p class="hero-links"><a href="#familias">Ver familias</a> · <a href="#calculator">Calculadora general de distribuciones</a> · <a href="#sample-size-calculator">Calculadora general de tamaño muestral</a> · <a href="#hypothesis-hub">Contrastes de hipótesis</a></p>
+            <p class="hero-links"><a href="distribuciones/">Distribuciones</a> · <a href="tamano-muestral/">Tamaño muestral</a> · <a href="contrastes-hipotesis/">Contrastes</a></p>
         </div>
     </header>
 
     <main>
-            <p>
-              Herramientas gratuitas para realizar cálculos estadísticos online: distribuciones
-              de probabilidad, tamaños muestrales, intervalos, p-valores y contrastes de hipótesis.
-              Cada calculadora incluye explicación, fórmula utilizada e interpretación del resultado.
-            </p>
-            <section id="familias" class="card content-card">
-              <h2>Distribuciones de probabilidad</h2>
-              <p>Calcula probabilidades, probabilidades acumuladas, colas, percentiles y valores críticos para las principales distribuciones estadísticas.</p>
-              <a href="distribuciones/">Ver calculadoras de distribuciones</a>
-            </section>
-            <section class="card content-card">
-              <h2>Tamaños muestrales</h2>
-              <p>Estima el tamaño de muestra necesario para medias, proporciones, comparaciones entre grupos y otros diseños habituales.</p>
-              <a href="tamano-muestral/">Ver calculadoras de tamaño muestral</a>
-            </section>
-            <section class="card content-card">
-              <h2>Contrastes de hipótesis</h2>
-              <p>Calcula estadísticos de contraste, p-valores, regiones críticas e interpreta resultados para pruebas estadísticas comunes.</p>
-              <a href="contrastes-hipotesis/">Ver calculadoras de contrastes</a>
-            </section>
-            <section class="card content-card">
-              <h2>¿Qué puedes calcular en esta web?</h2>
-              <ul>
-                <li>Probabilidades y percentiles de distribuciones estadísticas.</li>
-                <li>Tamaños muestrales para estudios y experimentos.</li>
-                <li>p-valores y estadísticos de contraste.</li>
-                <li>Resultados interpretables con fórmulas y ejemplos.</li>
-              </ul>
-            </section>
-
-        <section id="calculator" class="app-shell" aria-label="Calculadora de distribuciones">
-            <section class="card control-panel">
-                <div class="panel-heading">
-                    <h2>Configuración</h2>
-                    <p>Elige una distribución, ajusta parámetros y selecciona el tipo de cálculo.</p>
-                </div>
-
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Distribución</label>
-                        <select id="distribution">
-                            <option value="normal">Normal</option>
-                            <option value="binomial">Binomial</option>
-                            <option value="poisson">Poisson</option>
-                            <option value="studentt">t de Student</option>
-                            <option value="chisquare">Chi-cuadrado</option>
-                            <option value="centralf">Snedecor's F</option>
-                            <option value="exponential">Exponencial</option>
-                            <option value="negbin">Binomial negativa</option>
-                            <option value="geometric">Geométrica</option>
-                            <option value="uniform">Uniforme</option>
-                            <option value="gamma">Gamma</option>
-                            <option value="beta">Beta</option>
-                            <option value="lognormal">Log-normal</option>
-                            <option value="weibull">Weibull</option>
-                            <option value="hypergeometric">Hipergeométrica</option>
-                            <option value="bernoulli">Bernoulli</option>
-                        </select>
-                        <p id="distributionDescription" class="distribution-description"></p>
-                    </div>
-
-                    <div id="parameters" class="dynamic-parameters"></div>
-
-                    <div class="form-group">
-                        <label>Tipo de cálculo</label>
-                        <select id="calculation">
-                            <option value="pdf">Función de densidad / probabilidad</option>
-                            <option value="cdf">Probabilidad acumulada</option>
-                            <option value="quantile">Cuantil</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group" id="cdfModeGroup" hidden>
-                        <label>Tipo de probabilidad acumulada</label>
-                        <select id="cdfMode">
-                            <option value="left">P(X ≤ x)</option>
-                            <option value="right">P(X ≥ x)</option>
-                            <option value="interval">P(a ≤ X ≤ b)</option>
-                        </select>
-                    </div>
-
-                    <div class="inline-inputs">
-                        <div class="form-group">
-                            <label id="xValueLabel">valor de x</label>
-                            <input type="number" id="xValue" value="0">
-                        </div>
-
-                        <div class="form-group" id="bValueGroup" hidden>
-                            <label>valor de b</label>
-                            <input type="number" id="bValue" value="1">
-                        </div>
-                    </div>
-                </div>
-
-                <button class="calculate-btn" onclick="calculate()">Calcular</button>
-            </section>
-
-            <section class="card results-panel" id="graph-visualization">
-                <div class="panel-heading">
-                    <h2>Resultado y visualización</h2>
-                    <p>Interpreta el valor obtenido junto con la curva de distribución seleccionada.</p>
-                </div>
-
-                <div id="result" class="result-box">Resultado pendiente…</div>
-
-                <div class="chart-wrap">
-                    <canvas id="chart"></canvas>
-                </div>
-            </section>
+        <section id="familias" class="card content-card">
+            <h2>Distribuciones de probabilidad</h2>
+            <p>Calculadoras para probabilidades puntuales, acumuladas, colas y percentiles en distribuciones continuas y discretas.</p>
+            <p><a class="hero-link-button" href="distribuciones/">Explorar distribuciones</a></p>
         </section>
 
-        <section id="sample-size-calculator" class="card sample-size-panel">
-            <div class="panel-heading">
-                <h2>Tamaño muestral</h2>
-                <p>Calcula el tamaño muestral para una proporción o para comparar dos proporciones.</p>
-            </div>
-
-            <div class="form-grid sample-grid">
-                <div class="form-group">
-                    <label>Tipo de cálculo</label>
-                    <select id="sampleSizeType">
-                        <option value="oneprop">Una proporción</option>
-                        <option value="twoprop">Dos proporciones</option>
-                        <option value="onemean">Una media</option>
-                        <option value="twomean">Diferencia de medias</option>
-                    </select>
-                </div>
-
-                <div id="onePropInputs">
-                    <div class="inline-inputs">
-                        <div class="form-group">
-                            <label>Proporción esperada (p)</label>
-                            <input type="number" id="onePropP" value="0.5" step="0.01" min="0.0001" max="0.9999">
-                        </div>
-                        <div class="form-group">
-                            <label>Margen de error (E)</label>
-                            <input type="number" id="onePropE" value="0.05" step="0.001" min="0.0001" max="0.9999">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Nivel de confianza</label>
-                        <select id="onePropConfidence">
-                            <option value="0.90">90%</option>
-                            <option value="0.95" selected>95%</option>
-                            <option value="0.99">99%</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div id="twoPropInputs" hidden>
-                    <div class="inline-inputs">
-                        <div class="form-group">
-                            <label>Proporción esperada del grupo 1 (p1)</label>
-                            <input type="number" id="twoPropP1" value="0.5" step="0.01" min="0.0001" max="0.9999">
-                        </div>
-                        <div class="form-group">
-                            <label>Proporción esperada del grupo 2 (p2)</label>
-                            <input type="number" id="twoPropP2" value="0.4" step="0.01" min="0.0001" max="0.9999">
-                        </div>
-                    </div>
-
-                    <div class="inline-inputs">
-                        <div class="form-group">
-                            <label>Alfa (α)</label>
-                            <input type="number" id="twoPropAlpha" value="0.05" step="0.001" min="0.0001" max="0.2">
-                        </div>
-                        <div class="form-group">
-                            <label>Potencia (1-β)</label>
-                            <input type="number" id="twoPropPower" value="0.8" step="0.01" min="0.5" max="0.999">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Asignación entre grupos</label>
-                        <select id="twoPropAllocation">
-                            <option value="equal" selected>Igual (1:1)</option>
-                            <option value="custom">Desigual (n2/n1 personalizado)</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group" id="twoPropRatioGroup" hidden>
-                        <label>Razón n2/n1 (k)</label>
-                        <input type="number" id="twoPropRatio" value="1.5" step="0.1" min="0.1">
-                    </div>
-                </div>
-
-                <div id="oneMeanInputs" hidden>
-                    <div class="inline-inputs">
-                        <div class="form-group">
-                            <label>Desviación estándar (σ)</label>
-                            <input type="number" id="oneMeanSigma" value="10" step="0.1" min="0.0001">
-                        </div>
-                        <div class="form-group">
-                            <label>Margen de error (E)</label>
-                            <input type="number" id="oneMeanE" value="2" step="0.1" min="0.0001">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Nivel de confianza</label>
-                        <select id="oneMeanConfidence">
-                            <option value="0.90">90%</option>
-                            <option value="0.95" selected>95%</option>
-                            <option value="0.99">99%</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div id="twoMeanInputs" hidden>
-                    <div class="inline-inputs">
-                        <div class="form-group">
-                            <label>Desviación estándar del grupo 1 (σ1)</label>
-                            <input type="number" id="twoMeanSigma1" value="10" step="0.1" min="0.0001">
-                        </div>
-                        <div class="form-group">
-                            <label>Desviación estándar del grupo 2 (σ2)</label>
-                            <input type="number" id="twoMeanSigma2" value="10" step="0.1" min="0.0001">
-                        </div>
-                    </div>
-
-                    <div class="inline-inputs">
-                        <div class="form-group">
-                            <label>Diferencia mínima detectable (Δ)</label>
-                            <input type="number" id="twoMeanDelta" value="5" step="0.1" min="0.0001">
-                        </div>
-                        <div class="form-group">
-                            <label>Alfa (α)</label>
-                            <input type="number" id="twoMeanAlpha" value="0.05" step="0.001" min="0.0001" max="0.2">
-                        </div>
-                    </div>
-
-                    <div class="inline-inputs">
-                        <div class="form-group">
-                            <label>Potencia (1-β)</label>
-                            <input type="number" id="twoMeanPower" value="0.8" step="0.01" min="0.5" max="0.999">
-                        </div>
-                        <div class="form-group">
-                            <label>Asignación entre grupos</label>
-                            <select id="twoMeanAllocation">
-                                <option value="equal" selected>Igual (1:1)</option>
-                                <option value="custom">Desigual (n2/n1 personalizado)</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group" id="twoMeanRatioGroup" hidden>
-                        <label>Razón n2/n1 (k)</label>
-                        <input type="number" id="twoMeanRatio" value="1.5" step="0.1" min="0.1">
-                    </div>
-                </div>
-            </div>
-            <button class="calculate-btn" onclick="calculateSampleSize()">Calcular tamaño muestral</button>
-            <div id="sampleSizeResult" class="result-box">Resultado pendiente…</div>
-            <div id="sampleSizeFormula" class="formula-box">Fórmula pendiente…</div>
+        <section class="card content-card">
+            <h2>Tamaño muestral</h2>
+            <p>Herramientas para estimar el número de observaciones necesarias según confianza, error, potencia y diseño del estudio.</p>
+            <p><a class="hero-link-button" href="tamano-muestral/">Explorar tamaño muestral</a></p>
         </section>
-
 
         <section id="hypothesis-hub" class="card content-card" aria-labelledby="hypothesis-hub-title">
-            <h2 id="hypothesis-hub-title">Contrastes de hipótesis: acceso directo</h2>
-            <p>Actualmente el sitio ofrece calculadoras específicas por tipo de contraste. Elige la prueba que necesitas y accede directamente:</p>
-            <ul>
-                <li><a href="contraste-hipotesis-una-media.html">Contraste para una media</a></li>
-                <li><a href="contraste-hipotesis-una-proporcion.html">Contraste para una proporción</a></li>
-                <li><a href="contraste-hipotesis-dos-medias.html">Contraste para dos medias</a></li>
-                <li><a href="contraste-hipotesis-dos-proporciones.html">Contraste para dos proporciones</a></li>
-                <li><a href="contrastes-hipotesis/">Ver índice completo de contrastes</a></li>
-            </ul>
+            <h2 id="hypothesis-hub-title">Contrastes de hipótesis</h2>
+            <p>Acceso directo a pruebas de una media, dos medias, una proporción y dos proporciones con interpretación del p-valor.</p>
+            <p><a class="hero-link-button" href="contrastes-hipotesis/">Explorar contrastes</a></p>
         </section>
 
-        <section id="how-to-use" class="card content-card">
-            <h2>Cómo usar esta calculadora de distribuciones</h2>
-            <p>Esta herramienta está diseñada para ayudarte a convertir conceptos estadísticos en decisiones concretas. Cuando eliges un tipo de cálculo como <strong>PDF/PMF</strong>, la calculadora devuelve la altura de la curva en un punto (distribuciones continuas) o la probabilidad exacta de un valor entero (distribuciones discretas). En la distribución normal, la PDF representa densidad, no probabilidad puntual; en Binomial y Poisson, la PMF sí representa probabilidad puntual. Si cambias a <strong>CDF</strong>, obtienes probabilidad acumulada: por ejemplo, la probabilidad de observar un valor menor o igual que <em>x</em>, mayor o igual que <em>x</em>, o dentro de un intervalo.</p>
-            <p>El modo <strong>Cuantil</strong> invierte la lógica. En lugar de introducir un valor de la variable aleatoria, introduces una probabilidad entre 0 y 1 y la herramienta devuelve el punto de corte correspondiente. Este enfoque es útil para percentiles, umbrales de decisión y límites de control. Por ejemplo, si necesitas el valor que deja al 95% de las observaciones por debajo, selecciona cuantiles e introduce 0.95.</p>
-            <p>En la gráfica, la línea o marcador rojo indica el valor usado en el cálculo. El área sombreada representa la probabilidad acumulada solicitada cuando usas CDF: área a la izquierda, a la derecha o entre dos puntos. Cuanto mayor sea el área sombreada, mayor será la probabilidad del evento definido. Si quieres conectar teoría y práctica, revisa las secciones de Normal, Binomial y Poisson más abajo: encontrarás cuándo usar cada distribución y cómo mapear sus parámetros a los campos del formulario.</p>
-        </section>
-
-        <section id="distribution-guides" class="card content-card" aria-labelledby="seo-title">
-            <h2 id="seo-title">Calculadora de distribuciones de probabilidad</h2>
-            <p>ProbLab funciona como una <strong>calculadora de distribuciones de probabilidad</strong> completa para estudiantes, analistas y profesionales que necesitan resultados rápidos e interpretables. Puedes usarla como <strong>calculadora de distribución normal</strong> para estimar densidades, probabilidades acumuladas y cuantiles en datos con forma de campana. También funciona como <strong>calculadora de distribución binomial</strong> cuando los resultados son discretos y se basan en un número fijo de ensayos con probabilidad de éxito constante. Para modelar conteos de eventos, actúa como <strong>calculadora de distribución de Poisson</strong>, ideal para tasas en el tiempo o el espacio.</p>
-            <p>A diferencia de un formulario básico, esta página combina la herramienta interactiva con guía explicativa para que los usuarios entiendan qué significa cada salida. La curva dibujada y la región resaltada ayudan a visualizar la <strong>probabilidad acumulada</strong>, la probabilidad en cola y la probabilidad por intervalos directamente a partir de los valores de entrada. Al unir fórmulas, descripciones de parámetros y ejemplos prácticos con la calculadora, ProbLab facilita tanto el cálculo rápido como la comprensión conceptual.</p>
-        </section>
-
-     
-        <section class="card content-card faq-section" aria-labelledby="faq-title">
-            <h2 id="faq-title">Preguntas frecuentes</h2>
-            <article>
-                <h3>¿Qué es una distribución de probabilidad?</h3>
-                <p>Una distribución de probabilidad es una descripción matemática de qué tan probable es cada resultado posible de una variable aleatoria. Las distribuciones continuas asignan densidad sobre intervalos, mientras que las discretas asignan masa de probabilidad a resultados enteros.</p>
-            </article>
-            <article>
-                <h3>¿Cuál es la diferencia entre PDF y CDF?</h3>
-                <p>La PDF (o PMF en casos discretos) describe el comportamiento local de la probabilidad en un valor, mientras que la CDF da la probabilidad acumulada hasta ese valor. La CDF responde “¿qué tan probable es que X sea menor o igual que x?” y suele ser más útil para umbrales de decisión.</p>
-            </article>
-            <article>
-                <h3>¿Cómo calculo un cuantil?</h3>
-                <p>Selecciona “Cuantil” en la calculadora e introduce una probabilidad entre 0 y 1. El valor devuelto es el punto de corte por debajo del cual queda la proporción elegida de resultados.</p>
-            </article>
-            <article>
-                <h3>¿Cuándo debo usar una distribución binomial?</h3>
-                <p>Usa la binomial cuando tengas un número fijo de ensayos independientes, cada uno con resultado éxito/fracaso y probabilidad de éxito constante.</p>
-            </article>
-            <article>
-                <h3>¿Para qué se usa la distribución de Poisson?</h3>
-                <p>Poisson se usa para contar eventos en intervalos cuando los eventos ocurren de forma independiente a una tasa media estable, como llegadas, defectos o incidentes a lo largo del tiempo.</p>
-            </article>
+        <section class="card content-card" aria-labelledby="quick-links-title">
+            <h2 id="quick-links-title">Accesos rápidos</h2>
+            <div class="learning-grid">
+                <article class="card content-card">
+                    <h3>Distribuciones destacadas</h3>
+                    <ul>
+                        <li><a href="normal.html">Distribución normal</a></li>
+                        <li><a href="binomial.html">Distribución binomial</a></li>
+                        <li><a href="poisson.html">Distribución de Poisson</a></li>
+                    </ul>
+                </article>
+                <article class="card content-card">
+                    <h3>Tamaño muestral destacado</h3>
+                    <ul>
+                        <li><a href="tamano-muestral-una-proporcion.html">Una proporción</a></li>
+                        <li><a href="tamano-muestral-una-media.html">Una media</a></li>
+                        <li><a href="tamano-muestral-diferencia-medias.html">Diferencia de medias</a></li>
+                    </ul>
+                </article>
+                <article class="card content-card">
+                    <h3>Contrastes destacados</h3>
+                    <ul>
+                        <li><a href="contraste-hipotesis-una-media.html">Contraste de una media</a></li>
+                        <li><a href="contraste-hipotesis-una-proporcion.html">Contraste de una proporción</a></li>
+                        <li><a href="contraste-hipotesis-dos-proporciones.html">Contraste de dos proporciones</a></li>
+                    </ul>
+                </article>
+            </div>
         </section>
     </main>
 
@@ -453,14 +193,5 @@
 </footer>
 </div>
 
-<script>
-window.MathJax = {
-  tex: { inlineMath: [['\\(', '\\)'], ['$', '$']] }
-};
-</script>
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jstat/1.9.4/jstat.min.js"></script>
-<script src="script.js?v=20260426" defer></script>
 </body>
 </html>
