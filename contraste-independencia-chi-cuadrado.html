@@ -28,6 +28,14 @@
     </script>
 
     <link rel="stylesheet" href="style_new.css?v=20260428-2">
+    <style>
+        .chart-caption {
+            margin-top: 0.75rem;
+            font-size: 0.88rem;
+            color: #6b7280;
+            line-height: 1.5;
+        }
+    </style>
 </head>
 <body>
 <div class="page-wrap">
@@ -109,6 +117,17 @@
             <div class="chart-wrap">
                 <canvas id="chiIndependenceChart" aria-label="Gráfico de zonas de aceptación y rechazo para el contraste chi-cuadrado de independencia" role="img"></canvas>
             </div>
+            <p class="chart-caption">
+                El gráfico muestra la distribución \(\chi^2\) con los grados de libertad
+                correspondientes a la tabla introducida. La zona en
+                <span style="color:#16a34a;font-weight:600">verde</span> es la región de
+                aceptación y la zona en
+                <span style="color:#dc2626;font-weight:600">rojo</span> es la región de
+                rechazo para el nivel de significación α elegido. La línea
+                <span style="color:#f59e0b;font-weight:600">naranja</span> indica el valor
+                del estadístico \(\chi^2\) observado: si cae en la zona roja, se rechaza H₀
+                y se concluye que existe asociación entre las variables.
+            </p>
         </section>
 
         <section class="card content-card">
