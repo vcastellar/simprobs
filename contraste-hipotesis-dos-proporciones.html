@@ -2,13 +2,13 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Calculadora de contraste de hipótesis para dos proporciones | ProbLab</title>
+    <title>Calculadora online de contraste de hipótesis para dos proporciones | ProbLab</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Compara dos proporciones con contraste estadístico, p-valor y decisión bilateral o unilateral.">
+    <meta name="description" content="Calculadora online de contraste de hipótesis para dos proporciones: compara grupos con p-valor y decisión estadística.">
     <link rel="canonical" href="https://problabtools.es/contraste-hipotesis-dos-proporciones.html">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Calculadora de contraste de hipótesis para dos proporciones | ProbLab">
-    <meta property="og:description" content="Compara dos proporciones con contraste estadístico, p-valor y decisión bilateral o unilateral.">
+    <meta property="og:title" content="Calculadora online de contraste de hipótesis para dos proporciones | ProbLab">
+    <meta property="og:description" content="Calculadora online de contraste de hipótesis para dos proporciones: compara grupos con p-valor y decisión estadística.">
     <meta property="og:url" content="https://problabtools.es/contraste-hipotesis-dos-proporciones.html">
     <meta property="og:site_name" content="ProbLab">
     <meta property="og:image" content="https://problabtools.es/og-image.png">
@@ -16,11 +16,11 @@
     {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
-      "name": "Calculadora de contraste de hipótesis para dos proporciones",
+      "name": "Calculadora online de contraste de hipótesis para dos proporciones",
       "applicationCategory": "EducationalApplication",
       "operatingSystem": "Web",
       "url": "https://problabtools.es/contraste-hipotesis-dos-proporciones.html",
-      "description": "Compara dos proporciones con contraste estadístico, p-valor y decisión bilateral o unilateral.",
+      "description": "Calculadora online de contraste de hipótesis para dos proporciones: compara grupos con p-valor y decisión estadística.",
       "offers": {
         "@type": "Offer",
         "price": "0",
@@ -34,19 +34,14 @@
 <div class="page-wrap">
     <header class="hero">
         <p class="eyebrow">Contrastes de hipótesis</p>
-        <h1>Calculadora de contraste de hipótesis para dos proporciones</h1>
+        <h1>Calculadora online de contraste de hipótesis para dos proporciones</h1>
         <p class="hero-subtitle">Contrasta si dos proporciones poblacionales son iguales en grupos independientes.</p>
         <p class="hero-links"><a class="hero-link-button" href="https://problabtools.es/">ir a la página principal</a></p>
     </header>
 
     <main>
-        <section class="card content-card">
-            <h2>Descripción</h2>
-            <p>Se usa cuando comparas dos grupos independientes con resultados binarios. En \(H_0\), se asume \(p_1 = p_2\) y se utiliza una proporción combinada para el error estándar.</p>
-            <p class="formula-line">\(H_0: p_1 - p_2 = 0\)</p>
-            <p class="formula-line">\( z = \frac{\hat{p}_1 - \hat{p}_2}{\sqrt{\hat{p}(1-\hat{p})(1/n_1 + 1/n_2)}} \)</p>
-            <p class="formula-line">\(\hat{p}=\frac{x_1+x_2}{n_1+n_2}\)</p>
-        </section>
+        <!-- Orden de secciones: 1) Conceptos clave, 2) Descripción, 3) Calculadora, 4) Contraste rápido, 5) Resto -->
+        
 
         <section class="card content-card">
             <h2>Conceptos clave del contraste</h2>
@@ -59,15 +54,17 @@
         </section>
 
         <section class="card content-card">
-            <h2>¿Por qué se usa la proporción combinada \(\hat{p}\)?</h2>
-            <p>Bajo \(H_0\), ambas muestras comparten la misma proporción poblacional desconocida. La estimación conjunta natural de esa proporción común es \(\hat{p}=(x_1+x_2)/(n_1+n_2)\).</p>
-            <p>Por eso el error estándar del contraste se construye con \(\hat{p}\), coherente con la hipótesis nula de igualdad \(p_1=p_2\).</p>
+            <h2>Descripción</h2>
+            <p>Se usa cuando comparas dos grupos independientes con resultados binarios. En \(H_0\), se asume \(p_1 = p_2\) y se utiliza una proporción combinada para el error estándar.</p>
+            <p class="formula-line">\(H_0: p_1 - p_2 = 0\)</p>
+            <p class="formula-line">\( z = \frac{\hat{p}_1 - \hat{p}_2}{\sqrt{\hat{p}(1-\hat{p})(1/n_1 + 1/n_2)}} \)</p>
+            <p class="formula-line">\(\hat{p}=\frac{x_1+x_2}{n_1+n_2}\)</p>
         </section>
 
-        <section class="card sample-size-panel">
+<section class="card sample-size-panel">
             <div class="panel-heading">
                 <h2>Calculadora</h2>
-                <p>Introduce éxitos y tamaño muestral de cada grupo para obtener p-valor y decisión.</p>
+                <p>Calculadora online: introduce éxitos y tamaño muestral de cada grupo para obtener p-valor y decisión.</p>
             </div>
 
             <div class="form-grid sample-grid">
@@ -97,6 +94,14 @@
             <div class="chart-wrap">
                 <canvas id="twoPropTestChart" aria-label="Gráfico de zonas de aceptación y rechazo para el contraste de dos proporciones" role="img"></canvas>
             </div>
+        </section>
+
+        
+
+        <section class="card content-card">
+            <h2>Contraste rápido</h2>
+            <p>Bajo \(H_0\), ambas muestras comparten la misma proporción poblacional desconocida. La estimación conjunta natural de esa proporción común es \(\hat{p}=(x_1+x_2)/(n_1+n_2)\).</p>
+            <p>Por eso el error estándar del contraste se construye con \(\hat{p}\), coherente con la hipótesis nula de igualdad \(p_1=p_2\).</p>
         </section>
     
         <section id="seo-support-content" class="card content-card">

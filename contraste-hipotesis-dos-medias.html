@@ -2,13 +2,13 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Calculadora de contraste de hipótesis para dos medias | ProbLab</title>
+    <title>Calculadora online de contraste de hipótesis para dos medias | ProbLab</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Evalúa diferencias entre dos medias con estadístico de contraste, p-valor e interpretación del resultado.">
+    <meta name="description" content="Calculadora online de contraste de hipótesis para dos medias: evalúa diferencias con p-valor y decisión.">
     <link rel="canonical" href="https://problabtools.es/contraste-hipotesis-dos-medias.html">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Calculadora de contraste de hipótesis para dos medias | ProbLab">
-    <meta property="og:description" content="Evalúa diferencias entre dos medias con estadístico de contraste, p-valor e interpretación del resultado.">
+    <meta property="og:title" content="Calculadora online de contraste de hipótesis para dos medias | ProbLab">
+    <meta property="og:description" content="Calculadora online de contraste de hipótesis para dos medias: evalúa diferencias con p-valor y decisión.">
     <meta property="og:url" content="https://problabtools.es/contraste-hipotesis-dos-medias.html">
     <meta property="og:site_name" content="ProbLab">
     <meta property="og:image" content="https://problabtools.es/og-image.png">
@@ -16,11 +16,11 @@
     {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
-      "name": "Calculadora de contraste de hipótesis para dos medias",
+      "name": "Calculadora online de contraste de hipótesis para dos medias",
       "applicationCategory": "EducationalApplication",
       "operatingSystem": "Web",
       "url": "https://problabtools.es/contraste-hipotesis-dos-medias.html",
-      "description": "Evalúa diferencias entre dos medias con estadístico de contraste, p-valor e interpretación del resultado.",
+      "description": "Calculadora online de contraste de hipótesis para dos medias: evalúa diferencias con p-valor y decisión.",
       "offers": {
         "@type": "Offer",
         "price": "0",
@@ -34,18 +34,14 @@
 <div class="page-wrap">
     <header class="hero">
         <p class="eyebrow">Contrastes de hipótesis</p>
-        <h1>Calculadora de contraste de hipótesis para dos medias</h1>
+        <h1>Calculadora online de contraste de hipótesis para dos medias</h1>
         <p class="hero-subtitle">Compara dos grupos independientes mediante un contraste t de Welch.</p>
         <p class="hero-links"><a class="hero-link-button" href="https://problabtools.es/">ir a la página principal</a></p>
     </header>
 
     <main>
-        <section class="card content-card">
-            <h2>Descripción</h2>
-            <p>Este contraste se utiliza para evaluar si dos medias poblacionales son iguales cuando se comparan dos grupos independientes y no se asume varianza común.</p>
-            <p class="formula-line">\(H_0: \mu_1 - \mu_2 = 0\)</p>
-            <p class="formula-line">\( t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{s_1^2/n_1 + s_2^2/n_2}} \)</p>
-        </section>
+        <!-- Orden de secciones: 1) Conceptos clave, 2) Descripción, 3) Calculadora, 4) Contraste rápido, 5) Resto -->
+        
 
         <section class="card content-card">
             <h2>Conceptos clave del contraste</h2>
@@ -58,15 +54,16 @@
         </section>
 
         <section class="card content-card">
-            <h2>¿Por qué aquí se usa Welch?</h2>
-            <p>Se utiliza la fórmula de Welch porque no obliga a suponer varianzas iguales entre grupos. En práctica aplicada, es una opción robusta cuando \(s_1\) y \(s_2\), o \(n_1\) y \(n_2\), son distintos.</p>
-            <p>Por eso también se usan grados de libertad aproximados (Welch-Satterthwaite), que pueden no ser enteros.</p>
+            <h2>Descripción</h2>
+            <p>Este contraste se utiliza para evaluar si dos medias poblacionales son iguales cuando se comparan dos grupos independientes y no se asume varianza común.</p>
+            <p class="formula-line">\(H_0: \mu_1 - \mu_2 = 0\)</p>
+            <p class="formula-line">\( t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{s_1^2/n_1 + s_2^2/n_2}} \)</p>
         </section>
 
-        <section class="card sample-size-panel">
+<section class="card sample-size-panel">
             <div class="panel-heading">
                 <h2>Calculadora</h2>
-                <p>Introduce medias, desviaciones y tamaños muestrales de ambos grupos.</p>
+                <p>Calculadora online: introduce medias, desviaciones y tamaños muestrales de ambos grupos.</p>
             </div>
 
             <div class="form-grid sample-grid">
@@ -100,6 +97,14 @@
             <div class="chart-wrap">
                 <canvas id="twoMeansTestChart" aria-label="Gráfico de zonas de aceptación y rechazo para el contraste de dos medias" role="img"></canvas>
             </div>
+        </section>
+
+        
+
+        <section class="card content-card">
+            <h2>Contraste rápido</h2>
+            <p>Se utiliza la fórmula de Welch porque no obliga a suponer varianzas iguales entre grupos. En práctica aplicada, es una opción robusta cuando \(s_1\) y \(s_2\), o \(n_1\) y \(n_2\), son distintos.</p>
+            <p>Por eso también se usan grados de libertad aproximados (Welch-Satterthwaite), que pueden no ser enteros.</p>
         </section>
     
         <section id="seo-support-content" class="card content-card">
