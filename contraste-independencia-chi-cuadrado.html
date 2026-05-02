@@ -51,24 +51,62 @@
     </header>
 
     <main>
+        <!-- Orden de secciones: 1) Descripción, 2) Calculadora, 3) Contraste rápido, 4) Resto -->
+
         <section class="card content-card">
             <h2>Descripción</h2>
-            <p>El contraste chi-cuadrado de independencia compara frecuencias observadas y esperadas en una tabla de contingencia.</p>
-            <p>Si las diferencias son demasiado grandes para atribuirlas al azar, se rechaza la hipótesis nula de independencia.</p>
-            <p class="formula-line">\(H_0\): las variables son independientes</p>
-            <p class="formula-line">\(H_1\): existe asociación entre variables</p>
-            <p class="formula-line">\(\chi^2=\sum\frac{(O_{ij}-E_{ij})^2}{E_{ij}}\), con \(E_{ij}=\frac{(n_{i\cdot})(n_{\cdot j})}{n}\)</p>
+
+            <p>
+                El contraste chi-cuadrado de independencia permite determinar si dos variables
+                categóricas están relacionadas entre sí o si, por el contrario, son independientes.
+                A diferencia de los contrastes sobre medias o varianzas, este contraste trabaja con
+                frecuencias: cuenta cuántas veces aparece cada combinación de categorías y compara
+                esas frecuencias con las que se esperarían si las variables no tuvieran ninguna relación.
+            </p>
+
+            <p>
+                La idea central es sencilla: si dos variables son independientes, la distribución de
+                una no debería depender del valor de la otra. Por ejemplo, si el género y la preferencia
+                de producto fueran independientes, la proporción de hombres y mujeres que elige cada
+                producto sería aproximadamente la misma. El contraste formaliza esa intuición.
+            </p>
+
+            <p>
+                Los datos se organizan en una <strong>tabla de contingencia</strong>, donde las filas
+                representan las categorías de una variable y las columnas las de la otra. Cada celda
+                contiene la frecuencia observada, es decir, cuántos individuos pertenecen a esa
+                combinación. A partir de los totales marginales se calculan las frecuencias esperadas
+                bajo independencia, y el estadístico mide cuánto se alejan las observadas de las esperadas.
+            </p>
+
+            <p>
+                El estadístico chi-cuadrado acumula las diferencias al cuadrado entre frecuencias
+                observadas y esperadas, ponderadas por las esperadas. Bajo la hipótesis nula de
+                independencia, este estadístico sigue aproximadamente una distribución chi-cuadrado
+                con \((r-1)(c-1)\) grados de libertad, donde \(r\) es el número de filas y \(c\) el
+                de columnas.
+            </p>
+
+            <p class="formula-line">\(H_0\): las dos variables son independientes</p>
+            <p class="formula-line">\(H_1\): existe asociación entre las dos variables</p>
+            <p class="formula-line">
+                \(\chi^2 = \sum_{i,j} \frac{(O_{ij} - E_{ij})^2}{E_{ij}}\),
+                con \(E_{ij} = \frac{n_{i\cdot} \cdot n_{\cdot j}}{n}\)
+            </p>
         </section>
 
         <section class="card sample-size-panel">
             <div class="panel-heading">
                 <h2>Calculadora</h2>
-                <p>Introduce la tabla de contingencia (filas separadas por saltos de línea y columnas por comas o espacios).</p>
+                <p>
+                    Calculadora online que calcula el estadístico chi-cuadrado, los grados de libertad,
+                    el p-valor y la decisión a partir de una tabla de contingencia.
+                </p>
             </div>
 
             <div class="form-grid sample-grid">
                 <div class="form-group">
-                    <label for="tableInput">Tabla observada</label>
+                    <label for="tableInput">Tabla observada (filas separadas por saltos de línea, columnas por comas o espacios)</label>
                     <textarea id="tableInput" rows="6">40, 10, 15
 30, 25, 20
 20, 15, 25</textarea>
@@ -92,10 +130,171 @@
 
         <section class="card content-card">
             <h2>Contraste rápido</h2>
-            <p>Para que la aproximación chi-cuadrado sea fiable, conviene que la mayoría de frecuencias esperadas sean mayores o iguales que 5.</p>
-            <p>Si la tabla es 2×2 con frecuencias pequeñas, considera el <a href="test-exacto-fisher.html">test exacto de Fisher</a>.</p>
+
+            <p>
+                El estadístico chi-cuadrado suma, para cada celda de la tabla, el cuadrado de la
+                diferencia entre la frecuencia observada \(O_{ij}\) y la frecuencia esperada \(E_{ij}\),
+                dividido por la esperada:
+            </p>
+
+            <p class="formula-line">
+                \(\chi^2 = \sum_{i=1}^{r}\sum_{j=1}^{c} \frac{(O_{ij} - E_{ij})^2}{E_{ij}} \sim \chi^2_{(r-1)(c-1)}\)
+            </p>
+
+            <p>
+                Las frecuencias esperadas bajo independencia se obtienen multiplicando los totales
+                marginales de fila y columna y dividiendo por el total general:
+            </p>
+
+            <p class="formula-line">
+                \(E_{ij} = \frac{n_{i\cdot} \cdot n_{\cdot j}}{n}\)
+            </p>
+
+            <p>
+                Para que la aproximación chi-cuadrado sea fiable, la mayoría de las frecuencias esperadas
+                deben ser iguales o superiores a 5. Si la tabla es 2×2 con frecuencias pequeñas o si
+                alguna celda tiene frecuencias esperadas inferiores a 1, conviene usar el
+                <a href="test-exacto-fisher.html">test exacto de Fisher</a> en su lugar.
+            </p>
+
+            <p>
+                Si el resultado es significativo, conviene examinar las celdas con mayor contribución
+                al estadístico para identificar qué combinaciones de categorías se alejan más de
+                la independencia.
+            </p>
+        </section>
+
+        <section id="seo-support-content" class="card content-card">
+            <h2>¿Qué calcula esta herramienta?</h2>
+
+            <p>
+                Esta calculadora del contraste chi-cuadrado de independencia permite analizar si
+                dos variables categóricas están asociadas o si su distribución conjunta es compatible
+                con la independencia estadística. A partir de una tabla de contingencia introducida
+                por el usuario, calcula automáticamente las frecuencias esperadas, el estadístico
+                chi-cuadrado, los grados de libertad, el p-valor y la decisión estadística, y
+                muestra el gráfico de la distribución con las zonas de aceptación y rechazo.
+            </p>
+
+            <h2>Fórmulas utilizadas</h2>
+
+            <p>
+                Las frecuencias esperadas bajo la hipótesis nula de independencia se calculan como:
+            </p>
+
+            <p class="formula-line">
+                \(E_{ij} = \frac{n_{i\cdot} \cdot n_{\cdot j}}{n}\)
+            </p>
+
+            <p>
+                donde \(n_{i\cdot}\) es el total de la fila \(i\), \(n_{\cdot j}\) es el total de
+                la columna \(j\) y \(n\) es el total general. El estadístico de contraste es:
+            </p>
+
+            <p class="formula-line">
+                \(\chi^2 = \sum_{i=1}^{r}\sum_{j=1}^{c} \frac{(O_{ij} - E_{ij})^2}{E_{ij}}\)
+            </p>
+
+            <p>
+                Bajo \(H_0\), este estadístico sigue aproximadamente una distribución chi-cuadrado
+                con \((r-1)(c-1)\) grados de libertad. El p-valor es la probabilidad de obtener
+                un estadístico igual o mayor al observado cuando \(H_0\) es cierta.
+            </p>
+
+            <h2>Ejemplo de uso</h2>
+
+            <p>
+                Supón que quieres estudiar si el nivel de satisfacción de los clientes (alto, medio,
+                bajo) depende del canal de compra (tienda física, tienda online, aplicación móvil).
+                Encuestas a 200 clientes y construyes una tabla 3×3 con las frecuencias observadas.
+                Introduces la tabla en la calculadora y fijas α = 0,05. Si el p-valor es menor que
+                0,05, concluyes que hay evidencia de que la satisfacción y el canal de compra están
+                asociados.
+            </p>
+
+            <p>
+                Otro ejemplo habitual: estudiar si la distribución de enfermedades (presente, ausente)
+                es distinta entre grupos de exposición (expuesto, no expuesto). Una tabla 2×2 con
+                los casos permite contrastar si la enfermedad es independiente del factor de riesgo.
+            </p>
+
+            <h2>Cómo interpretar el resultado</h2>
+
+            <p>
+                Si el p-valor es menor que \(\alpha\), se rechaza \(H_0\): hay evidencia estadística
+                de que las dos variables no son independientes y existe asociación entre ellas.
+                Si el p-valor es mayor o igual que \(\alpha\), no hay evidencia suficiente para
+                rechazar la independencia.
+            </p>
+
+            <p>
+                Un resultado significativo no indica la dirección ni la intensidad de la asociación,
+                solo que es improbable que las diferencias observadas se deban al azar. Para cuantificar
+                la fuerza de la asociación se pueden calcular medidas complementarias como la V de
+                Cramér o el coeficiente de contingencia.
+            </p>
+
+            <section class="related-tools">
+                <h2>Calculadoras relacionadas</h2>
+                <ul>
+                    <li><a href="test-exacto-fisher.html">Test exacto de Fisher</a></li>
+                    <li><a href="chisquare.html">Distribución chi-cuadrado</a></li>
+                    <li><a href="contraste-hipotesis-dos-proporciones.html">Contraste de dos proporciones</a></li>
+                    <li><a href="contrastes-hipotesis/">Contrastes de hipótesis</a></li>
+                </ul>
+            </section>
+
+            <h2>Preguntas frecuentes</h2>
+
+            <ul>
+                <li>
+                    <strong>¿Cuándo se usa el contraste chi-cuadrado de independencia?</strong>
+                    Cuando tienes dos variables categóricas y quieres saber si están relacionadas.
+                    Es habitual en estudios de mercado, epidemiología, ciencias sociales y control
+                    de calidad.
+                </li>
+                <li>
+                    <strong>¿Qué tamaño muestral se necesita?</strong>
+                    La aproximación chi-cuadrado es fiable cuando la mayoría de las frecuencias esperadas
+                    son iguales o superiores a 5 y ninguna es inferior a 1. Con muestras muy pequeñas,
+                    usa el test exacto de Fisher.
+                </li>
+                <li>
+                    <strong>¿Cuáles son los grados de libertad?</strong>
+                    Los grados de libertad son \((r-1)(c-1)\), donde \(r\) es el número de filas y
+                    \(c\) el número de columnas de la tabla de contingencia.
+                </li>
+                <li>
+                    <strong>¿Qué diferencia hay con el test de homogeneidad?</strong>
+                    El test de homogeneidad contrasta si la distribución de una variable es la misma
+                    en varios grupos independientes, mientras que el de independencia estudia la
+                    asociación entre dos variables en una muestra única. El estadístico y el cálculo
+                    son idénticos; la diferencia es conceptual y de diseño del estudio.
+                </li>
+                <li>
+                    <strong>¿Un p-valor significativo implica una asociación fuerte?</strong>
+                    No necesariamente. Con muestras grandes incluso asociaciones débiles producen
+                    p-valores muy pequeños. Para evaluar la intensidad de la asociación calcula
+                    la V de Cramér: \(V = \sqrt{\chi^2 / (n \cdot \min(r-1,\, c-1))}\).
+                </li>
+                <li>
+                    <strong>¿Se puede usar con variables ordinales?</strong>
+                    Sí, aunque en ese caso pueden ser más apropiados contrastes que aprovechen el orden
+                    de las categorías, como el test de tendencia de Cochran-Armitage.
+                </li>
+            </ul>
         </section>
     </main>
+
+    <footer class="legal-footer">
+        <p>
+            © 2026 problabtools.
+            <a href="aviso-legal.html">Aviso legal</a> ·
+            <a href="privacidad.html">Privacidad</a> ·
+            <a href="cookies.html">Cookies</a> ·
+            <a href="mailto:vic.sebastia@gmail.com">Contacto</a>
+        </p>
+    </footer>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
