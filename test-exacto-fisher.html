@@ -1,1 +1,70 @@
-<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Test exacto de Fisher (2x2) | ProbLab</title><meta name="description" content="Test exacto de Fisher para tablas 2x2 con tamaños muestrales pequeños o frecuencias esperadas bajas."><link rel="canonical" href="https://problabtools.es/test-exacto-fisher.html"><link rel="stylesheet" href="style_new.css?v=20260428-2"></head><body><div class="page-wrap"><header class="hero"><p class="eyebrow">Independencia o asociación</p><h1>Test exacto de Fisher (2×2)</h1><p class="hero-subtitle">Alternativa al chi-cuadrado cuando el tamaño muestral es pequeño o hay celdas esperadas bajas.</p><p class="hero-links"><a class="hero-link-button" href="contrastes-hipotesis/">Volver a contrastes</a></p></header><main><section class="card content-card"><h2>¿Qué evalúa?</h2><p>Evalúa la independencia entre dos variables binarias en una tabla 2×2 condicionando por los márgenes. Al ser exacto, no depende de aproximaciones asintóticas.</p><h2>Cuándo preferirlo</h2><ul><li>Frecuencias esperadas pequeñas.</li><li>Muestras reducidas.</li><li>Necesidad de inferencia exacta.</li></ul></section><section class="card content-card"><h2>Interpretación</h2><p>Si p-valor &lt; α, se rechaza independencia. Reporta también la razón de momios (odds ratio) y su intervalo de confianza para cuantificar la magnitud de la asociación.</p></section></main></div></body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculadora del test exacto de Fisher (2×2) | ProbLab</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Prueba exacta para contrastar independencia entre dos variables binarias en tabla 2×2 cuando la aproximación chi-cuadrado no es adecuada.">
+    <link rel="canonical" href="https://problabtools.es/test-exacto-fisher.html">
+    <link rel="stylesheet" href="style_new.css?v=20260428-2">
+</head>
+<body>
+<div class="page-wrap">
+<header class="hero">
+    <p class="eyebrow">Contrastes de hipótesis</p>
+    <h1>Calculadora del test exacto de Fisher (2×2)</h1>
+    <p class="hero-subtitle">Contraste exacto de independencia en tablas 2×2 con muestras pequeñas.</p>
+    <p class="hero-links"><a class="hero-link-button" href="contrastes-hipotesis/">Volver a contrastes</a></p>
+</header>
+<main>
+    <section class="card content-card">
+        <h2>Descripción</h2>
+        <p>Prueba exacta para contrastar independencia entre dos variables binarias en tabla 2×2 cuando la aproximación chi-cuadrado no es adecuada.</p>
+        <h2>Hipótesis y estadístico</h2>
+        <p>\(H_0\): independencia en tabla 2×2; \(H_1\): asociación.</p>
+        <p class="formula-line">Probabilidades hipergeométricas condicionadas a márgenes fijos.</p>
+    </section>
+
+    <section class="card sample-size-panel">
+        <div class="panel-heading">
+            <h2>Calculadora</h2>
+            <p>Introduce tus datos para obtener estadístico, p-valor y decisión del contraste.</p>
+        </div>
+        <div class="form-grid sample-grid">
+                    <div class="form-group"><label for="a">Celda a</label><input type="number" id="a" value="12" step="1"></div>
+                    <div class="form-group"><label for="b">Celda b</label><input type="number" id="b" value="5" step="1"></div>
+                    <div class="form-group"><label for="c">Celda c</label><input type="number" id="c" value="3" step="1"></div>
+                    <div class="form-group"><label for="d">Celda d</label><input type="number" id="d" value="14" step="1"></div>
+            <div class="form-group"><label for="alpha">Nivel de significación (α)</label><input type="number" id="alpha" value="0.05" step="0.001"></div>
+        </div>
+        <button class="calculate-btn">Calcular contraste</button>
+        <div class="result-box">Resultado pendiente…</div>
+    </section>
+
+    <section class="card content-card">
+        <h2>Contraste rápido</h2>
+        <p>Es un contraste exacto, no asintótico; muy útil cuando n es pequeño.</p>
+    </section>
+
+    <section id="seo-support-content" class="card content-card">
+        <h2>¿Qué calcula esta herramienta?</h2>
+        <p>Esta página está preparada con el mismo esquema que el resto de contrastes de ProbLab e incluye una sección de calculadora para introducir datos y estructurar el análisis.</p>
+        <h2>Cómo interpretar el resultado</h2>
+        <p>Si p-valor &lt; α, se rechaza \(H_0\). Si p-valor ≥ α, no hay evidencia suficiente para rechazar \(H_0\).</p>
+        <section class="related-tools">
+            <h2>Calculadoras relacionadas</h2>
+            <ul>
+                <li><a href="hypergeometric.html">Distribución hipergeométrica</a></li>
+                <li><a href="contraste-independencia-chi-cuadrado.html">Chi-cuadrado de independencia</a></li>
+            </ul>
+        </section>
+        <h2>Preguntas frecuentes</h2>
+        <ul>
+                <li><strong>¿Solo sirve para 2x2?</strong> Sí, esta versión clásica está diseñada para tablas 2×2.</li>
+                <li><strong>¿Qué reportar además del p-valor?</strong> Odds ratio e intervalo de confianza.</li>
+        </ul>
+    </section>
+</main>
+</div>
+</body>
+</html>

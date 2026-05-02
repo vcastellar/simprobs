@@ -1,19 +1,69 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contrastes sobre varianzas | ProbLab</title>
-  <meta name="description" content="Guía y calculadora conceptual para contrastes sobre una varianza y comparación de dos varianzas con chi-cuadrado y F de Fisher.">
-  <link rel="canonical" href="https://problabtools.es/contraste-hipotesis-varianzas.html">
-  <link rel="stylesheet" href="style_new.css?v=20260428-2">
+    <meta charset="UTF-8">
+    <title>Calculadora de contrastes sobre varianzas | ProbLab</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contrastes para analizar si la variabilidad de un proceso coincide con una hipótesis teórica o si difiere entre dos grupos independientes.">
+    <link rel="canonical" href="https://problabtools.es/contraste-hipotesis-varianzas.html">
+    <link rel="stylesheet" href="style_new.css?v=20260428-2">
 </head>
 <body>
 <div class="page-wrap">
-<header class="hero"><p class="eyebrow">Contrastes de hipótesis</p><h1>Contrastes sobre varianzas</h1><p class="hero-subtitle">Cómo contrastar si la variabilidad poblacional coincide con un valor teórico o difiere entre dos grupos.</p><p class="hero-links"><a class="hero-link-button" href="contrastes-hipotesis/">Volver a contrastes</a></p></header>
+<header class="hero">
+    <p class="eyebrow">Contrastes de hipótesis</p>
+    <h1>Calculadora de contrastes sobre varianzas</h1>
+    <p class="hero-subtitle">Contrasta una varianza frente a un valor de referencia o compara dos varianzas.</p>
+    <p class="hero-links"><a class="hero-link-button" href="contrastes-hipotesis/">Volver a contrastes</a></p>
+</header>
 <main>
-<section class="card content-card"><h2>Descripción</h2><p>Estos contrastes analizan la dispersión de los datos. Son útiles cuando la media puede ser parecida entre grupos, pero la estabilidad o variabilidad del proceso cambia.</p><h2>Casos habituales</h2><ul><li><strong>Una varianza:</strong> contraste chi-cuadrado para evaluar \(H_0: \sigma^2=\sigma_0^2\).</li><li><strong>Dos varianzas:</strong> contraste F de Fisher para \(H_0: \sigma_1^2=\sigma_2^2\).</li></ul><p>Supuesto clave: normalidad aproximada en los datos de origen, especialmente importante en muestras pequeñas.</p></section>
-<section class="card content-card"><h2>Interpretación</h2><p>Un p-valor pequeño sugiere que la variabilidad observada es difícil de explicar bajo la hipótesis nula. Además del p-valor conviene reportar cociente de varianzas e intervalos de confianza.</p><section class="related-tools"><h2>Calculadoras relacionadas</h2><ul><li><a href="chisquare.html">Distribución chi-cuadrado</a></li><li><a href="centralf.html">Distribución F de Fisher</a></li></ul></section></section>
-</main></div>
+    <section class="card content-card">
+        <h2>Descripción</h2>
+        <p>Contrastes para analizar si la variabilidad de un proceso coincide con una hipótesis teórica o si difiere entre dos grupos independientes.</p>
+        <h2>Hipótesis y estadístico</h2>
+        <p>\(H_0: \sigma^2=\sigma_0^2\) o \(H_0: \sigma_1^2=\sigma_2^2\).</p>
+        <p class="formula-line">\(\chi^2=rac{(n-1)s^2}{\sigma_0^2}\) y \(F=rac{s_1^2}{s_2^2}\).</p>
+    </section>
+
+    <section class="card sample-size-panel">
+        <div class="panel-heading">
+            <h2>Calculadora</h2>
+            <p>Introduce tus datos para obtener estadístico, p-valor y decisión del contraste.</p>
+        </div>
+        <div class="form-grid sample-grid">
+                    <div class="form-group"><label for="n">Tamaño muestral (n)</label><input type="number" id="n" value="30" step="1"></div>
+                    <div class="form-group"><label for="s2">Varianza muestral (s²)</label><input type="number" id="s2" value="25" step="0.01"></div>
+                    <div class="form-group"><label for="sigma20">Varianza hipotética (σ₀²)</label><input type="number" id="sigma20" value="20" step="0.01"></div>
+            <div class="form-group"><label for="alpha">Nivel de significación (α)</label><input type="number" id="alpha" value="0.05" step="0.001"></div>
+        </div>
+        <button class="calculate-btn">Calcular contraste</button>
+        <div class="result-box">Resultado pendiente…</div>
+    </section>
+
+    <section class="card content-card">
+        <h2>Contraste rápido</h2>
+        <p>Útil en control de calidad y validación de estabilidad de procesos; revisar normalidad en muestras pequeñas.</p>
+    </section>
+
+    <section id="seo-support-content" class="card content-card">
+        <h2>¿Qué calcula esta herramienta?</h2>
+        <p>Esta página está preparada con el mismo esquema que el resto de contrastes de ProbLab e incluye una sección de calculadora para introducir datos y estructurar el análisis.</p>
+        <h2>Cómo interpretar el resultado</h2>
+        <p>Si p-valor &lt; α, se rechaza \(H_0\). Si p-valor ≥ α, no hay evidencia suficiente para rechazar \(H_0\).</p>
+        <section class="related-tools">
+            <h2>Calculadoras relacionadas</h2>
+            <ul>
+                <li><a href="chisquare.html">Distribución chi-cuadrado</a></li>
+                <li><a href="centralf.html">Distribución F de Fisher</a></li>
+            </ul>
+        </section>
+        <h2>Preguntas frecuentes</h2>
+        <ul>
+                <li><strong>¿Cuándo usar chi-cuadrado o F?</strong> Chi-cuadrado para una varianza; F para comparación de dos varianzas.</li>
+                <li><strong>¿Es sensible a no normalidad?</strong> Sí, especialmente con tamaños pequeños.</li>
+        </ul>
+    </section>
+</main>
+</div>
 </body>
 </html>

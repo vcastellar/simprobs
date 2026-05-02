@@ -1,1 +1,69 @@
-<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Kolmogorov–Smirnov de bondad de ajuste | ProbLab</title><meta name="description" content="Test Kolmogorov–Smirnov para evaluar si una muestra continua sigue una distribución teórica."><link rel="canonical" href="https://problabtools.es/kolmogorov-smirnov-bondad-ajuste.html"><link rel="stylesheet" href="style_new.css?v=20260428-2"></head><body><div class="page-wrap"><header class="hero"><p class="eyebrow">Bondad de ajuste</p><h1>Kolmogorov–Smirnov (no paramétrico)</h1><p class="hero-subtitle">Mide la distancia máxima entre la CDF empírica y la teórica.</p><p class="hero-links"><a class="hero-link-button" href="contrastes-hipotesis/">Volver a contrastes</a></p></header><main><section class="card content-card"><h2>Descripción</h2><p>El estadístico \(D\) es la diferencia máxima absoluta entre distribución acumulada empírica y teórica. Es útil para detectar desviaciones globales sin depender de clases o intervalos.</p><p>Cuando los parámetros de la distribución teórica se estiman con la misma muestra, se requieren ajustes (por ejemplo, Lilliefors en normalidad).</p></section></main></div></body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculadora de Kolmogorov–Smirnov (bondad de ajuste) | ProbLab</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Test no paramétrico basado en la distancia máxima entre CDF empírica y teórica.">
+    <link rel="canonical" href="https://problabtools.es/kolmogorov-smirnov-bondad-ajuste.html">
+    <link rel="stylesheet" href="style_new.css?v=20260428-2">
+</head>
+<body>
+<div class="page-wrap">
+<header class="hero">
+    <p class="eyebrow">Contrastes de hipótesis</p>
+    <h1>Calculadora de Kolmogorov–Smirnov (bondad de ajuste)</h1>
+    <p class="hero-subtitle">Contrasta si una muestra continua sigue una distribución teórica.</p>
+    <p class="hero-links"><a class="hero-link-button" href="contrastes-hipotesis/">Volver a contrastes</a></p>
+</header>
+<main>
+    <section class="card content-card">
+        <h2>Descripción</h2>
+        <p>Test no paramétrico basado en la distancia máxima entre CDF empírica y teórica.</p>
+        <h2>Hipótesis y estadístico</h2>
+        <p>\(H_0\): la muestra sigue la distribución teórica; \(H_1\): no la sigue.</p>
+        <p class="formula-line">\(D=\sup_x |F_n(x)-F_0(x)|\).</p>
+    </section>
+
+    <section class="card sample-size-panel">
+        <div class="panel-heading">
+            <h2>Calculadora</h2>
+            <p>Introduce tus datos para obtener estadístico, p-valor y decisión del contraste.</p>
+        </div>
+        <div class="form-grid sample-grid">
+                    <div class="form-group"><label for="n">Tamaño muestral (n)</label><input type="number" id="n" value="50" step="1"></div>
+                    <div class="form-group"><label for="d">Estadístico D observado</label><input type="number" id="d" value="0.12" step="0.001"></div>
+                    <div class="form-group"><label for="dcrit">Valor crítico Dα</label><input type="number" id="dcrit" value="0.19" step="0.001"></div>
+            <div class="form-group"><label for="alpha">Nivel de significación (α)</label><input type="number" id="alpha" value="0.05" step="0.001"></div>
+        </div>
+        <button class="calculate-btn">Calcular contraste</button>
+        <div class="result-box">Resultado pendiente…</div>
+    </section>
+
+    <section class="card content-card">
+        <h2>Contraste rápido</h2>
+        <p>No depende de clases, pero si parámetros se estiman con la muestra hay que usar ajustes (Lilliefors).</p>
+    </section>
+
+    <section id="seo-support-content" class="card content-card">
+        <h2>¿Qué calcula esta herramienta?</h2>
+        <p>Esta página está preparada con el mismo esquema que el resto de contrastes de ProbLab e incluye una sección de calculadora para introducir datos y estructurar el análisis.</p>
+        <h2>Cómo interpretar el resultado</h2>
+        <p>Si p-valor &lt; α, se rechaza \(H_0\). Si p-valor ≥ α, no hay evidencia suficiente para rechazar \(H_0\).</p>
+        <section class="related-tools">
+            <h2>Calculadoras relacionadas</h2>
+            <ul>
+                <li><a href="normal.html">Distribución normal</a></li>
+                <li><a href="shapiro-wilk-normalidad.html">Shapiro–Wilk</a></li>
+            </ul>
+        </section>
+        <h2>Preguntas frecuentes</h2>
+        <ul>
+                <li><strong>¿Es paramétrico?</strong> No, es no paramétrico.</li>
+                <li><strong>¿Se puede usar para normalidad?</strong> Sí, aunque con ajuste de Lilliefors si parámetros se estiman.</li>
+        </ul>
+    </section>
+</main>
+</div>
+</body>
+</html>

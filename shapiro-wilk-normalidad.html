@@ -1,1 +1,69 @@
-<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Shapiro–Wilk (normalidad) | ProbLab</title><meta name="description" content="Test de Shapiro–Wilk para evaluar normalidad en muestras pequeñas y medianas."><link rel="canonical" href="https://problabtools.es/shapiro-wilk-normalidad.html"><link rel="stylesheet" href="style_new.css?v=20260428-2"></head><body><div class="page-wrap"><header class="hero"><p class="eyebrow">Bondad de ajuste</p><h1>Shapiro–Wilk (normalidad)</h1><p class="hero-subtitle">Prueba específica para contrastar si una muestra procede de una distribución normal.</p><p class="hero-links"><a class="hero-link-button" href="contrastes-hipotesis/">Volver a contrastes</a></p></header><main><section class="card content-card"><h2>Cuándo usarlo</h2><p>Es una de las pruebas de normalidad más potentes en muestras pequeñas y medianas. Se usa antes de aplicar métodos paramétricos sensibles a no normalidad.</p><h2>Interpretación</h2><p>Si p-valor &lt; α, se rechaza normalidad. Combina siempre el test con inspección gráfica (histograma y Q-Q plot), porque en muestras grandes pequeñas desviaciones pueden resultar significativas.</p></section></main></div></body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculadora de Shapiro–Wilk (normalidad) | ProbLab</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Prueba de normalidad recomendada en muestras pequeñas y medianas por su buena potencia frente a muchas alternativas.">
+    <link rel="canonical" href="https://problabtools.es/shapiro-wilk-normalidad.html">
+    <link rel="stylesheet" href="style_new.css?v=20260428-2">
+</head>
+<body>
+<div class="page-wrap">
+<header class="hero">
+    <p class="eyebrow">Contrastes de hipótesis</p>
+    <h1>Calculadora de Shapiro–Wilk (normalidad)</h1>
+    <p class="hero-subtitle">Evalúa si una muestra puede considerarse procedente de una distribución normal.</p>
+    <p class="hero-links"><a class="hero-link-button" href="contrastes-hipotesis/">Volver a contrastes</a></p>
+</header>
+<main>
+    <section class="card content-card">
+        <h2>Descripción</h2>
+        <p>Prueba de normalidad recomendada en muestras pequeñas y medianas por su buena potencia frente a muchas alternativas.</p>
+        <h2>Hipótesis y estadístico</h2>
+        <p>\(H_0\): los datos siguen una distribución normal; \(H_1\): no normalidad.</p>
+        <p class="formula-line">\(W=rac{(\sum a_i x_{(i)})^2}{\sum (x_i-ar{x})^2}\).</p>
+    </section>
+
+    <section class="card sample-size-panel">
+        <div class="panel-heading">
+            <h2>Calculadora</h2>
+            <p>Introduce tus datos para obtener estadístico, p-valor y decisión del contraste.</p>
+        </div>
+        <div class="form-grid sample-grid">
+                    <div class="form-group"><label for="n">Tamaño muestral (n)</label><input type="number" id="n" value="40" step="1"></div>
+                    <div class="form-group"><label for="w">Estadístico W</label><input type="number" id="w" value="0.96" step="0.001"></div>
+                    <div class="form-group"><label for="p">p-valor</label><input type="number" id="p" value="0.08" step="0.001"></div>
+            <div class="form-group"><label for="alpha">Nivel de significación (α)</label><input type="number" id="alpha" value="0.05" step="0.001"></div>
+        </div>
+        <button class="calculate-btn">Calcular contraste</button>
+        <div class="result-box">Resultado pendiente…</div>
+    </section>
+
+    <section class="card content-card">
+        <h2>Contraste rápido</h2>
+        <p>Combina el test con gráficos Q-Q e histograma para evaluación más robusta.</p>
+    </section>
+
+    <section id="seo-support-content" class="card content-card">
+        <h2>¿Qué calcula esta herramienta?</h2>
+        <p>Esta página está preparada con el mismo esquema que el resto de contrastes de ProbLab e incluye una sección de calculadora para introducir datos y estructurar el análisis.</p>
+        <h2>Cómo interpretar el resultado</h2>
+        <p>Si p-valor &lt; α, se rechaza \(H_0\). Si p-valor ≥ α, no hay evidencia suficiente para rechazar \(H_0\).</p>
+        <section class="related-tools">
+            <h2>Calculadoras relacionadas</h2>
+            <ul>
+                <li><a href="normal.html">Distribución normal</a></li>
+                <li><a href="kolmogorov-smirnov-bondad-ajuste.html">Kolmogorov–Smirnov</a></li>
+            </ul>
+        </section>
+        <h2>Preguntas frecuentes</h2>
+        <ul>
+                <li><strong>¿Si p<0.05 ya no puedo usar métodos paramétricos?</strong> Depende del contexto y robustez del método.</li>
+                <li><strong>¿Sirve para muestras grandes?</strong> Sí, pero detecta desviaciones pequeñas sin gran relevancia práctica.</li>
+        </ul>
+    </section>
+</main>
+</div>
+</body>
+</html>
