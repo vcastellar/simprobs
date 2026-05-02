@@ -2,97 +2,607 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Calculadora del test exacto de Fisher (2×2) | ProbLab</title>
+    <title>Calculadora del test exacto de Fisher | ProbLab</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Prueba exacta de independencia para variables binarias cuando la aproximación chi-cuadrado no es fiable.">
+    <meta name="description" content="Test exacto de Fisher para tablas 2×2 con muestras pequeñas o frecuencias bajas. Calcula el p-valor exacto, la odds ratio y su intervalo de confianza.">
     <link rel="canonical" href="https://problabtools.es/test-exacto-fisher.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Calculadora del test exacto de Fisher | ProbLab">
+    <meta property="og:description" content="Test exacto de independencia para tablas 2×2 con muestras pequeñas o frecuencias bajas.">
+    <meta property="og:url" content="https://problabtools.es/test-exacto-fisher.html">
+    <meta property="og:site_name" content="ProbLab">
+    <meta property="og:image" content="https://problabtools.es/og-image.png">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Calculadora del test exacto de Fisher",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "Web",
+      "url": "https://problabtools.es/test-exacto-fisher.html",
+      "description": "Herramienta para calcular el p-valor exacto en tablas 2×2 mediante la distribución hipergeométrica.",
+      "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}
+    }
+    </script>
+
     <link rel="stylesheet" href="style_new.css?v=20260428-2">
 </head>
 <body>
 <div class="page-wrap">
-<header class="hero">
-    <p class="eyebrow">Contrastes de hipótesis</p>
-    <h1>Calculadora del test exacto de Fisher (2×2)</h1>
-    <p class="hero-subtitle">Contraste exacto para tablas 2×2 con n pequeño.</p>
-    <p class="hero-links"><a class="hero-link-button" href="contrastes-hipotesis/">Volver a contrastes</a></p>
-</header>
-<main>
-<section class="card content-card">
-<h2>Descripción</h2>
-<p>Calcula probabilidad exacta condicionando por márgenes fijos en la tabla 2×2.</p>
-<p>Es especialmente útil en ensayos pequeños, eventos raros o subgrupos clínicos.</p>
-<h2>Hipótesis y estadístico</h2>
-<p class="formula-line">\(H_0\): independencia en tabla 2×2</p>
-<p class="formula-line">\(H_1\): asociación</p>
-<p class="formula-line">Probabilidad exacta hipergeométrica condicionada a márgenes</p>
-</section>
-<section class="card sample-size-panel">
-<div class="panel-heading"><h2>Calculadora</h2><p>Introduce un estadístico observado y, si ya lo tienes, un p-valor para obtener decisión y gráfico de contraste.</p></div>
-<div class="form-grid sample-grid">
-<div class="inline-inputs"><div class="form-group"><label for="stat">Estadístico observado</label><input type="number" id="stat" value="1.95" step="0.001"></div><div class="form-group"><label for="pval">p-valor (opcional)</label><input type="number" id="pval" value="0.033" step="0.0001" min="0" max="1"></div></div>
-<div class="inline-inputs"><div class="form-group"><label for="alpha">Nivel de significación (α)</label><input type="number" id="alpha" value="0.05" step="0.001" min="0.0001" max="0.2"></div><div class="form-group"><label for="tail">Tipo de contraste</label><select id="tail"><option value="two">Bilateral</option><option value="right">Cola derecha</option><option value="left">Cola izquierda</option></select></div></div>
+    <header class="hero">
+        <p class="eyebrow">Contrastes de hipótesis</p>
+        <h1>Calculadora del test exacto de Fisher</h1>
+        <p class="hero-subtitle">P-valor exacto para tablas 2×2 con muestras pequeñas o frecuencias bajas.</p>
+        <p class="hero-links"><a class="hero-link-button" href="https://problabtools.es/">ir a la página principal</a></p>
+    </header>
+
+    <main>
+
+        <section class="card content-card">
+            <h2>Descripción</h2>
+
+            <p>
+                El test exacto de Fisher evalúa si existe asociación entre dos variables
+                categóricas binarias resumidas en una tabla de contingencia 2×2. A diferencia
+                del chi-cuadrado de independencia, que se basa en una aproximación asintótica
+                válida solo para muestras grandes, Fisher calcula la probabilidad <em>exacta</em>
+                de obtener la tabla observada o cualquier configuración igualmente o más extrema,
+                condicionando a que los totales marginales se mantengan fijos.
+            </p>
+
+            <p>
+                El principio de condicionamiento a los márgenes fijos tiene una larga historia.
+                La prueba fue propuesta por Ronald A. Fisher en 1935 a partir de un experimento
+                muy sencillo: una señora afirmaba distinguir si la leche se había añadido antes
+                o después del té al servir la taza. Fisher planteó: si la señora no tiene
+                capacidad discriminatoria alguna, ¿cuál es la probabilidad de que acierte al
+                menos tantas veces como acertó? La respuesta requería calcular exactamente cuántas
+                formas hay de distribuir los aciertos dadas las restricciones del experimento.
+            </p>
+
+            <p>
+                El test es especialmente adecuado cuando el tamaño muestral es pequeño o cuando
+                alguna celda tiene frecuencias bajas. La regla habitual es usar Fisher cuando
+                alguna frecuencia esperada es menor que 5, ya que en ese caso la aproximación
+                chi-cuadrado puede ser poco precisa. Sin embargo, Fisher puede aplicarse en
+                cualquier situación, independientemente del tamaño de la muestra.
+            </p>
+
+            <p>
+                Formalmente, dados los totales marginales fijos \(R_1 = a+b\), \(R_2 = c+d\),
+                \(C_1 = a+c\), \(C_2 = b+d\) y el total general \(n\), el valor de la celda
+                \(a\) determina completamente el resto de la tabla. Su distribución condicional
+                bajo independencia es hipergeométrica:
+            </p>
+
+            <p class="formula-line">
+                \(P(X = a) = \frac{\binom{R_1}{a}\binom{n - R_1}{C_1 - a}}{\binom{n}{C_1}}\)
+            </p>
+
+            <p class="formula-line">\(H_0\): las dos variables son independientes (no hay asociación)</p>
+            <p class="formula-line">\(H_1\): existe asociación entre las variables</p>
+        </section>
+
+        <section class="card sample-size-panel">
+            <div class="panel-heading">
+                <h2>Calculadora</h2>
+                <p>
+                    Introduce los cuatro recuentos de la tabla 2×2. La distribución
+                    de las celdas es:
+                </p>
+                <p class="formula-line">
+                    \(\begin{array}{c|cc|c}
+                        &amp; \text{Col. 1} &amp; \text{Col. 2} &amp; \text{Total} \\
+                    \hline
+                    \text{Fila 1} &amp; a &amp; b &amp; R_1 \\
+                    \text{Fila 2} &amp; c &amp; d &amp; R_2 \\
+                    \hline
+                    \text{Total} &amp; C_1 &amp; C_2 &amp; n
+                    \end{array}\)
+                </p>
+            </div>
+
+            <div class="form-grid sample-grid">
+                <div class="inline-inputs">
+                    <div class="form-group">
+                        <label for="cellA">Celda a — fila 1, col. 1</label>
+                        <input type="number" id="cellA" value="8" step="1" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="cellB">Celda b — fila 1, col. 2</label>
+                        <input type="number" id="cellB" value="2" step="1" min="0">
+                    </div>
+                </div>
+
+                <div class="inline-inputs">
+                    <div class="form-group">
+                        <label for="cellC">Celda c — fila 2, col. 1</label>
+                        <input type="number" id="cellC" value="2" step="1" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="cellD">Celda d — fila 2, col. 2</label>
+                        <input type="number" id="cellD" value="8" step="1" min="0">
+                    </div>
+                </div>
+
+                <div class="inline-inputs">
+                    <div class="form-group">
+                        <label for="alpha">Nivel de significación (α)</label>
+                        <input type="number" id="alpha" value="0.05" step="0.001" min="0.0001" max="0.2">
+                    </div>
+                    <div class="form-group">
+                        <label for="tail">Tipo de contraste</label>
+                        <select id="tail">
+                            <option value="two">Bilateral (≠)</option>
+                            <option value="right">Cola derecha (&gt;)</option>
+                            <option value="left">Cola izquierda (&lt;)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <button class="calculate-btn" id="calcFisherBtn">Calcular contraste</button>
+            <div id="fisherResult" class="result-box">Resultado pendiente…</div>
+            <div class="chart-wrap">
+                <canvas id="fisherChart" aria-label="Distribución hipergeométrica con zona de rechazo para el test exacto de Fisher" role="img"></canvas>
+            </div>
+        </section>
+
+        <section class="card content-card">
+            <h2>Contraste rápido</h2>
+
+            <p>
+                Con los totales marginales fijos, el número de individuos en la celda \(a\)
+                puede tomar los valores enteros entre \(k_{\min} = \max(0,\, R_1 + C_1 - n)\)
+                y \(k_{\max} = \min(R_1,\, C_1)\). Para cada uno de esos valores existe una
+                única tabla compatible con los márgenes, y su probabilidad bajo independencia es:
+            </p>
+
+            <p class="formula-line">
+                \(P(X = k) = \frac{\binom{R_1}{k}\binom{n-R_1}{C_1-k}}{\binom{n}{C_1}},
+                \quad k = k_{\min}, \ldots, k_{\max}\)
+            </p>
+
+            <p>
+                El concepto de "igual de extremo o más extremo" depende del tipo de contraste.
+                En el contraste bilateral es habitual definir como tablas más extremas aquellas
+                cuya probabilidad hipergeométrica es tan pequeña o menor que la de la tabla
+                observada. En el contraste unilateral se suma directamente la cola correspondiente:
+            </p>
+
+            <p class="formula-line">
+                Bilateral: \(\; p = \sum_{k:\, P(k)\,\leq\, P(a_{\text{obs}})} P(k)\)
+            </p>
+            <p class="formula-line">
+                Cola derecha: \(\; p = P(X \geq a_{\text{obs}}) = \sum_{k=a_{\text{obs}}}^{k_{\max}} P(k)\)
+            </p>
+            <p class="formula-line">
+                Cola izquierda: \(\; p = P(X \leq a_{\text{obs}}) = \sum_{k=k_{\min}}^{a_{\text{obs}}} P(k)\)
+            </p>
+
+            <p>
+                Además del p-valor, la herramienta calcula la odds ratio
+                \(\widehat{OR} = ad/bc\) y su intervalo de confianza al 95 % mediante la
+                aproximación log-normal de Woolf. La odds ratio cuantifica la magnitud y
+                dirección de la asociación con independencia del tamaño muestral: un
+                \(\widehat{OR} > 1\) indica que el evento de la columna 1 es más probable
+                en la fila 1 que en la fila 2, y viceversa.
+            </p>
+
+            <p>
+                El gráfico muestra la distribución hipergeométrica completa: en verde la
+                zona de aceptación, en rojo la zona de rechazo y en naranja la barra
+                correspondiente al valor observado.
+            </p>
+        </section>
+
+        <section id="seo-support-content" class="card content-card">
+            <h2>¿Qué calcula esta herramienta?</h2>
+
+            <p>
+                Esta calculadora del test exacto de Fisher toma los cuatro recuentos de una
+                tabla de contingencia 2×2, calcula el p-valor exacto mediante la distribución
+                hipergeométrica, la odds ratio con su intervalo de confianza al 95 % y emite
+                una decisión automática al nivel de significación indicado.
+            </p>
+
+            <p>
+                La herramienta muestra también un gráfico de barras con la distribución
+                hipergeométrica condicionada a los márgenes observados. Las barras en rojo
+                corresponden a la zona de rechazo para el nivel α y el tipo de contraste
+                seleccionados; la barra naranja indica el valor observado de la celda \(a\).
+                Este gráfico permite ver de un vistazo cuán probable es la tabla observada
+                dentro del espacio de tablas posibles.
+            </p>
+
+            <h2>Fórmulas utilizadas</h2>
+
+            <p>
+                Para una tabla con celdas \(a, b, c, d\), totales de fila \(R_1 = a+b\),
+                \(R_2 = c+d\), total de primera columna \(C_1 = a+c\) y total general
+                \(n = a+b+c+d\), la probabilidad hipergeométrica de la tabla observada es:
+            </p>
+
+            <p class="formula-line">
+                \(P(X = a) = \frac{\binom{R_1}{a}\binom{n-R_1}{C_1-a}}{\binom{n}{C_1}}\)
+            </p>
+
+            <p>
+                El p-valor bilateral suma todas las probabilidades de las tablas con esa
+                probabilidad o menor:
+            </p>
+
+            <p class="formula-line">
+                \(p = \sum_{k=k_{\min}}^{k_{\max}} P(k) \cdot \mathbf{1}\bigl[P(k) \leq P(a_{\text{obs}})\bigr]\)
+            </p>
+
+            <p>
+                La odds ratio y su intervalo de confianza aproximado al 95 % (aproximación
+                log-normal de Woolf) son:
+            </p>
+
+            <p class="formula-line">
+                \(\widehat{OR} = \frac{a \cdot d}{b \cdot c}\)
+            </p>
+            <p class="formula-line">
+                \(\text{IC}_{95\%}(\widehat{OR}) = \left(
+                    e^{\,\ln\widehat{OR} - 1{,}96\,\widehat{SE}},\;
+                    e^{\,\ln\widehat{OR} + 1{,}96\,\widehat{SE}}
+                \right), \qquad
+                \widehat{SE} = \sqrt{\frac{1}{a}+\frac{1}{b}+\frac{1}{c}+\frac{1}{d}}\)
+            </p>
+
+            <p>
+                Cuando alguna celda es cero, el OR no está definido directamente. En ese
+                caso se aplica la corrección de Haldane–Anscombe, que suma 0,5 a las cuatro
+                celdas antes de calcular el OR y el IC.
+            </p>
+
+            <h2>Ejemplo de uso</h2>
+
+            <p>
+                <strong>Ejemplo 1: ensayo clínico con muestra pequeña.</strong>
+                En un ensayo con 20 participantes, 10 reciben un nuevo tratamiento y 10
+                placebo. De los tratados, 8 mejoran y 2 no; de los controles, 2 mejoran y 8
+                no. La tabla es: \(a=8,\, b=2,\, c=2,\, d=8\). El test bilateral da un
+                p-valor de aproximadamente 0,023, que es menor que α = 0,05, por lo que se
+                rechaza la hipótesis de independencia. La odds ratio es
+                \(\widehat{OR} = (8 \times 8)/(2 \times 2) = 16\), lo que indica que los
+                pacientes tratados tienen 16 veces más probabilidad de mejorar que los
+                controles.
+            </p>
+
+            <p>
+                <strong>Ejemplo 2: control de calidad con frecuencias bajas.</strong>
+                En una línea de producción se inspeccionan 12 piezas por turno. En el turno
+                de mañana, 1 de 6 piezas es defectuosa; en el turno de tarde, 3 de 6 lo son.
+                La tabla es: \(a=1,\, b=5,\, c=3,\, d=3\). Con este tamaño tan pequeño,
+                chi-cuadrado no es fiable (hay celdas con frecuencias esperadas menores de 5),
+                pero Fisher calcula un p-valor exacto de 0,286, que no permite concluir
+                diferencia significativa entre turnos. La odds ratio es 0,20, aunque el IC al
+                95 % contiene el 1 (aproximadamente [0,01, 2,83]), lo que refleja la
+                incertidumbre debida al tamaño pequeño.
+            </p>
+
+            <p>
+                En epidemiología, estudios de casos y controles, análisis genéticos,
+                ensayos piloto o cualquier situación con frecuencias esperadas bajas, Fisher
+                proporciona resultados fiables donde chi-cuadrado podría inducir a error.
+            </p>
+
+            <h2>Cómo interpretar el resultado</h2>
+
+            <p>
+                Si el p-valor es menor que \(\alpha\), se rechaza \(H_0\) y se concluye que
+                hay evidencia estadística de asociación entre las dos variables. Si el p-valor
+                es mayor o igual que \(\alpha\), no hay evidencia suficiente para rechazar la
+                independencia con ese nivel de significación.
+            </p>
+
+            <p>
+                La odds ratio cuantifica la magnitud y dirección de la asociación y es
+                independiente del tamaño muestral. Si el intervalo de confianza no incluye
+                el 1, la asociación es estadísticamente significativa al nivel correspondiente.
+                Nótese que el IC y el p-valor no siempre llevan a la misma conclusión exacta:
+                el IC usa la aproximación log-normal de Woolf, mientras que el p-valor es
+                exacto.
+            </p>
+
+            <p>
+                Al ser un test exacto, el p-valor puede ser conservador (ligeramente superior
+                al valor nominal) en el contraste bilateral, consecuencia de la naturaleza
+                discreta de la distribución hipergeométrica. En muestras grandes, Fisher y
+                chi-cuadrado dan resultados prácticamente idénticos; la diferencia relevante
+                aparece con \(n\) pequeño o frecuencias bajas.
+            </p>
+
+            <section class="related-tools">
+                <h2>Calculadoras relacionadas</h2>
+                <ul>
+                    <li><a href="contraste-independencia-chi-cuadrado.html">Chi-cuadrado de independencia</a></li>
+                    <li><a href="hypergeometric.html">Distribución hipergeométrica</a></li>
+                    <li><a href="chi-cuadrado-bondad-ajuste.html">Chi-cuadrado de bondad de ajuste</a></li>
+                    <li><a href="contrastes-hipotesis/">Contrastes de hipótesis</a></li>
+                </ul>
+            </section>
+
+            <h2>Preguntas frecuentes</h2>
+
+            <ul>
+                <li>
+                    <strong>¿Cuándo usar Fisher en lugar de chi-cuadrado?</strong>
+                    Cuando alguna frecuencia esperada es menor que 5 o el tamaño muestral es
+                    pequeño. Para tablas con frecuencias altas en todas las celdas, chi-cuadrado
+                    es igualmente válido y computacionalmente equivalente.
+                </li>
+                <li>
+                    <strong>¿Por qué se llama test "exacto"?</strong>
+                    Porque el p-valor se calcula directamente a partir de la distribución
+                    hipergeométrica, sin ninguna aproximación asintótica. El resultado es
+                    matemáticamente exacto para cualquier tamaño muestral.
+                </li>
+                <li>
+                    <strong>¿Qué significa condicionar a los márgenes fijos?</strong>
+                    Significa que el cálculo del p-valor se hace suponiendo que los totales
+                    de filas y columnas son datos conocidos, no variables aleatorias. Esto
+                    reduce el espacio de tablas posibles y hace el cálculo tratable. En la
+                    práctica, los márgenes fijos son un supuesto razonable en diseños donde
+                    los tamaños de grupo están preestablecidos.
+                </li>
+                <li>
+                    <strong>¿Qué es la odds ratio y cómo se interpreta?</strong>
+                    La odds ratio es el cociente entre las odds de éxito en la fila 1 y
+                    las odds de éxito en la fila 2, donde éxito se define como pertenecer
+                    a la columna 1. Un OR = 1 indica ausencia de asociación; OR > 1 indica
+                    que la columna 1 es más frecuente en la fila 1; OR &lt; 1 indica que
+                    es menos frecuente.
+                </li>
+                <li>
+                    <strong>¿Para qué sirve el intervalo de confianza de la OR?</strong>
+                    Proporciona un rango plausible para la verdadera odds ratio poblacional.
+                    Si el IC no contiene el 1, la asociación es estadísticamente significativa.
+                    Además, el ancho del IC refleja la precisión del estimador: con muestras
+                    pequeñas el IC es muy amplio, lo que indica incertidumbre elevada sobre
+                    la magnitud real de la asociación.
+                </li>
+                <li>
+                    <strong>¿Puede aplicarse a tablas mayores de 2×2?</strong>
+                    El test exacto de Fisher generalizado existe para tablas de cualquier
+                    tamaño, pero el coste computacional crece exponencialmente. Para tablas
+                    con más de dos filas o columnas se suele usar chi-cuadrado o métodos de
+                    Monte Carlo.
+                </li>
+                <li>
+                    <strong>¿Qué cola debo elegir?</strong>
+                    El contraste bilateral es el más habitual y el más conservador: busca
+                    asociación en cualquier dirección. El contraste unilateral de cola derecha
+                    es adecuado cuando tienes una hipótesis previa de que la celda \(a\) es
+                    mayor de lo esperado; el de cola izquierda, cuando esperas que sea menor.
+                    En ausencia de hipótesis previas de dirección, usa siempre el bilateral.
+                </li>
+                <li>
+                    <strong>¿Es el test de Fisher conservador?</strong>
+                    En el contraste bilateral puede serlo: debido a la discreción de la
+                    distribución hipergeométrica, el tamaño real del test puede ser inferior
+                    a α. Algunos autores prefieren el p-valor de "punto medio" (mid-p) para
+                    reducir el conservadurismo, aunque el p-valor exacto estándar es el más
+                    extendido en la práctica.
+                </li>
+            </ul>
+        </section>
+    </main>
+
+    <footer class="legal-footer">
+        <p>
+            © 2026 problabtools.
+            <a href="aviso-legal.html">Aviso legal</a> ·
+            <a href="privacidad.html">Privacidad</a> ·
+            <a href="cookies.html">Cookies</a> ·
+            <a href="mailto:vic.sebastia@gmail.com">Contacto</a>
+        </p>
+    </footer>
 </div>
-<button class="calculate-btn" id="calcBtn">Calcular contraste</button>
-<div id="result" class="result-box">Resultado pendiente…</div>
-<div class="chart-wrap"><canvas id="testChart" role="img" aria-label="Gráfico comparativo de p-valor y alpha"></canvas></div>
-</section>
-<section class="card content-card"><h2>Contraste rápido</h2><p>Un p-valor bajo sugiere asociación; informa también la odds ratio con IC.</p><p>Al ser exacto, evita sesgo de aproximaciones asintóticas en muestras pequeñas.</p></section>
-<section id="seo-support-content" class="card content-card"><h2>¿Qué calcula esta herramienta?</h2><p>La herramienta estructura el análisis del contraste: toma un estadístico observado, compara el p-valor frente a α y devuelve una conclusión operativa reproducible para informes técnicos, TFG/TFM o análisis aplicados en negocio y salud.</p><h2>Cómo interpretar el resultado</h2><p>Si p-valor &lt; α, se rechaza \(H_0\). Si p-valor ≥ α, no hay evidencia suficiente para rechazar \(H_0\). Además de la significación, reporta tamaño del efecto e intervalo de confianza cuando sea posible.</p><section class="related-tools"><h2>Calculadoras relacionadas</h2><ul><li><a href="hypergeometric.html">Distribución hipergeométrica</a></li><li><a href="contraste-independencia-chi-cuadrado.html">Chi-cuadrado de independencia</a></li></ul></section><h2>Preguntas frecuentes</h2><ul><li><strong>¿Cuándo elegir Fisher?</strong> En 2×2 con frecuencias pequeñas.</li><li><strong>¿Es conservador?</strong> Puede serlo en algunos escenarios; valora contexto.</li></ul></section>
-</main></div>
+
+<script>
+window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)'], ['$', '$']] },
+    startup: {
+        ready: () => {
+            MathJax.startup.defaultReady();
+            MathJax.typesetPromise();
+        }
+    }
+};
+</script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-let testChart;
-function normalPdf(x){ return Math.exp(-0.5*x*x)/Math.sqrt(2*Math.PI); }
-function critical(alpha, tail){
-  const inv=(p)=>Math.sqrt(2)*erfinv(2*p-1);
-  if(tail==='two'){ const c=inv(1-alpha/2); return {left:-c,right:c}; }
-  if(tail==='left'){ return {left:inv(alpha),right:Infinity}; }
-  return {left:-Infinity,right:inv(1-alpha)};
+let fisherChart;
+
+// Cached log-factorials
+const _lf = [0, 0];
+function logFact(n) {
+    for (let i = _lf.length; i <= n; i++) _lf.push(_lf[_lf.length - 1] + Math.log(i));
+    return _lf[n];
 }
-function erfinv(x){
-  const a=0.147; const ln=Math.log(1-x*x);
-  const p1=2/(Math.PI*a)+ln/2;
-  const p2=ln/a;
-  return Math.sign(x)*Math.sqrt(Math.sqrt(p1*p1-p2)-p1);
+
+function logBinom(n, k) {
+    if (k < 0 || k > n) return -Infinity;
+    return logFact(n) - logFact(k) - logFact(n - k);
 }
-function renderChart(alpha, tail, stat){
-  const ctx=document.getElementById('testChart'); if(!ctx) return;
-  const c=critical(alpha,tail);
-  const curve=[], acc=[], rej=[];
-  for(let x=-4.5;x<=4.5;x+=0.03){
-    const y=normalPdf(x); curve.push({x,y});
-    const accepted=(x>=c.left && x<=c.right);
-    acc.push({x,y:accepted?y:null}); rej.push({x,y:accepted?null:y});
-  }
-  if(testChart) testChart.destroy();
-  testChart=new Chart(ctx,{type:'line',data:{datasets:[
-    {label:'Densidad',data:curve,borderColor:'#1f2937',pointRadius:0,borderWidth:2,fill:false},
-    {label:'Aceptación',data:acc,borderColor:'#16a34a',backgroundColor:'rgba(34,197,94,0.25)',pointRadius:0,borderWidth:1,fill:'origin'},
-    {label:'Rechazo',data:rej,borderColor:'#dc2626',backgroundColor:'rgba(239,68,68,0.30)',pointRadius:0,borderWidth:1,fill:'origin'},
-    {label:'Estadístico',data:[{x:stat,y:0},{x:stat,y:normalPdf(Math.max(-4.5,Math.min(4.5,stat)))}],borderColor:'#2563eb',pointRadius:0,borderWidth:2,fill:false}
-  ]},options:{parsing:false,scales:{x:{type:'linear',min:-4.5,max:4.5},y:{min:0}},plugins:{legend:{display:true}}}});
+
+// P(X = k) for X ~ Hypergeometric: drawing R1 from n where C1 are "successes"
+function hypergeomProb(k, n, C1, R1) {
+    return Math.exp(logBinom(C1, k) + logBinom(n - C1, R1 - k) - logBinom(n, R1));
 }
-function erf(x){const sign=x>=0?1:-1; x=Math.abs(x); const a1=0.254829592,a2=-0.284496736,a3=1.421413741,a4=-1.453152027,a5=1.061405429,p=0.3275911; const t=1/(1+p*x); const y=1-(((((a5*t+a4)*t)+a3)*t+a2)*t+a1)*t*Math.exp(-x*x); return sign*y;}
-document.getElementById('calcBtn').addEventListener('click',()=>{
-  const a=parseFloat(document.getElementById('alpha').value);
-  const stat=parseFloat(document.getElementById('stat').value)||0;
-  const tail=document.getElementById('tail').value;
-  let p=parseFloat(document.getElementById('pval').value);
-  if(Number.isNaN(p)){
-    const z=Math.abs(stat);
-    if(tail==='two') p=2*(1-(0.5*(1+erf(z/Math.sqrt(2)))));
-    else if(tail==='right') p=1-(0.5*(1+erf(stat/Math.sqrt(2))));
-    else p=0.5*(1+erf(stat/Math.sqrt(2)));
-  }
-  p=Math.max(0,Math.min(1,p));
-  const dec=p<a?'Se rechaza H₀':'No se rechaza H₀';
-  document.getElementById('result').innerHTML=`Estadístico: <strong>${stat.toFixed(4)}</strong><br>p-valor: <strong>${p.toFixed(4)}</strong><br>Decisión (α=${a}): <strong>${dec}</strong>`;
-  renderChart(a,tail,stat);
+
+function computeFisher(a, b, c, d, tail) {
+    const R1 = a + b, n = a + b + c + d, C1 = a + c;
+    const kMin = Math.max(0, R1 + C1 - n);
+    const kMax = Math.min(R1, C1);
+
+    const probs = [];
+    for (let k = kMin; k <= kMax; k++) {
+        probs.push({ k, p: hypergeomProb(k, n, C1, R1) });
+    }
+
+    const pObs = hypergeomProb(a, n, C1, R1);
+    let pValue;
+
+    if (tail === 'right') {
+        pValue = probs.filter(e => e.k >= a).reduce((s, e) => s + e.p, 0);
+    } else if (tail === 'left') {
+        pValue = probs.filter(e => e.k <= a).reduce((s, e) => s + e.p, 0);
+    } else {
+        // Two-tailed: sum all probabilities <= p(observed)
+        pValue = probs.filter(e => e.p <= pObs * (1 + 1e-9)).reduce((s, e) => s + e.p, 0);
+    }
+
+    return { pValue: Math.min(1, pValue), probs, kMin, kMax, R1, C1, n, pObs };
+}
+
+function computeOR(a, b, c, d) {
+    // Haldane–Anscombe correction when any cell is 0
+    let aa = a, bb = b, cc = c, dd = d;
+    const corrected = (a === 0 || b === 0 || c === 0 || d === 0);
+    if (corrected) { aa += 0.5; bb += 0.5; cc += 0.5; dd += 0.5; }
+    const or = (aa * dd) / (bb * cc);
+    const se = Math.sqrt(1/aa + 1/bb + 1/cc + 1/dd);
+    return { or, lo: Math.exp(Math.log(or) - 1.96 * se), hi: Math.exp(Math.log(or) + 1.96 * se), corrected };
+}
+
+// Compute chart rejection region boundaries for visualization
+function rejectionBoundaries(probs, alpha, tail) {
+    if (tail === 'right') {
+        let cum = 0, boundary = probs[probs.length - 1].k + 1;
+        for (let i = probs.length - 1; i >= 0; i--) {
+            cum += probs[i].p;
+            if (cum <= alpha + 1e-9) boundary = probs[i].k; else break;
+        }
+        return k => k >= boundary;
+    }
+    if (tail === 'left') {
+        let cum = 0, boundary = probs[0].k - 1;
+        for (let i = 0; i < probs.length; i++) {
+            cum += probs[i].p;
+            if (cum <= alpha + 1e-9) boundary = probs[i].k; else break;
+        }
+        return k => k <= boundary;
+    }
+    // Two-tailed: alpha/2 on each side
+    let cumL = 0, leftB = probs[0].k - 1;
+    for (let i = 0; i < probs.length; i++) {
+        cumL += probs[i].p;
+        if (cumL <= alpha / 2 + 1e-9) leftB = probs[i].k; else break;
+    }
+    let cumR = 0, rightB = probs[probs.length - 1].k + 1;
+    for (let i = probs.length - 1; i >= 0; i--) {
+        cumR += probs[i].p;
+        if (cumR <= alpha / 2 + 1e-9) rightB = probs[i].k; else break;
+    }
+    return k => k <= leftB || k >= rightB;
+}
+
+function renderFisherChart(probs, aObs, alpha, tail) {
+    const ctx = document.getElementById('fisherChart');
+    if (!ctx) return;
+
+    const isRejected = rejectionBoundaries(probs, alpha, tail);
+    const labels = probs.map(e => e.k);
+    const data = probs.map(e => e.p);
+
+    const bgColors = probs.map(e => {
+        if (e.k === aObs) return 'rgba(245,158,11,0.75)';
+        if (isRejected(e.k)) return 'rgba(239,68,68,0.55)';
+        return 'rgba(34,197,94,0.45)';
+    });
+    const borderColors = probs.map(e => {
+        if (e.k === aObs) return '#d97706';
+        if (isRejected(e.k)) return 'rgba(220,38,38,0.9)';
+        return 'rgba(22,163,74,0.8)';
+    });
+    const borderWidths = probs.map(e => e.k === aObs ? 3 : 1);
+
+    if (fisherChart) fisherChart.destroy();
+    fisherChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels,
+            datasets: [{
+                label: 'P(X = k)',
+                data,
+                backgroundColor: bgColors,
+                borderColor: borderColors,
+                borderWidth: borderWidths
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        title: items => `k = ${items[0].label}`,
+                        label: item => `P(X = ${item.label}) = ${Number(item.raw).toFixed(6)}`
+                    }
+                }
+            },
+            scales: {
+                x: { title: { display: true, text: 'Valor de la celda a' } },
+                y: { beginAtZero: true, title: { display: true, text: 'Probabilidad' } }
+            }
+        }
+    });
+}
+
+document.getElementById('calcFisherBtn').addEventListener('click', () => {
+    const a = parseInt(document.getElementById('cellA').value, 10);
+    const b = parseInt(document.getElementById('cellB').value, 10);
+    const c = parseInt(document.getElementById('cellC').value, 10);
+    const d = parseInt(document.getElementById('cellD').value, 10);
+    const alpha = parseFloat(document.getElementById('alpha').value);
+    const tail = document.getElementById('tail').value;
+    const resultEl = document.getElementById('fisherResult');
+
+    if ([a, b, c, d].some(v => !Number.isInteger(v) || v < 0)) {
+        resultEl.textContent = 'Error: las celdas deben ser enteros no negativos.';
+        if (fisherChart) { fisherChart.destroy(); fisherChart = null; }
+        return;
+    }
+    if (a + b + c + d === 0) {
+        resultEl.textContent = 'Error: el total de la tabla no puede ser cero.';
+        return;
+    }
+    if (!Number.isFinite(alpha) || alpha <= 0 || alpha >= 1) {
+        resultEl.textContent = 'Error: revisa que 0 < α < 1.';
+        return;
+    }
+
+    const { pValue, probs } = computeFisher(a, b, c, d, tail);
+    const { or, lo, hi, corrected } = computeOR(a, b, c, d);
+    const tailLabel = tail === 'two' ? 'bilateral' : tail === 'right' ? 'cola derecha' : 'cola izquierda';
+    const decision = pValue < alpha
+        ? 'Se rechaza H₀ (hay evidencia de asociación).'
+        : 'No se rechaza H₀ (no hay evidencia suficiente de asociación).';
+
+    const n = a + b + c + d;
+    const R1 = a + b, C1 = a + c;
+
+    resultEl.innerHTML =
+        `p-valor exacto (${tailLabel}): <strong>${pValue.toFixed(6)}</strong><br>` +
+        `Odds ratio: <strong>${or.toFixed(4)}</strong>` +
+        (corrected ? ' <small>(corrección de Haldane–Anscombe aplicada)</small>' : '') + `<br>` +
+        `IC 95 % OR: <strong>[${lo.toFixed(4)}, ${hi.toFixed(4)}]</strong><br>` +
+        `Totales: n = ${n}, R₁ = ${R1}, C₁ = ${C1}, gl = 1<br>` +
+        `Decisión (α=${alpha}): <strong>${decision}</strong>`;
+
+    renderFisherChart(probs, a, alpha, tail);
 });
-renderChart(0.05,'two',parseFloat(document.getElementById('stat').value)||0);
-</script>
-<script>
-window.MathJax = { tex: { inlineMath: [['\\(','\\)'], ['$', '$']] } };
+
+document.getElementById('calcFisherBtn').click();
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" defer></script>
-</body></html>
+</body>
+</html>
