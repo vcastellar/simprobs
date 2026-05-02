@@ -40,13 +40,7 @@
     </header>
 
     <main>
-        <section class="card content-card">
-            <h2>Descripción</h2>
-            <p>Se usa cuando comparas dos grupos independientes con resultados binarios. En \(H_0\), se asume \(p_1 = p_2\) y se utiliza una proporción combinada para el error estándar.</p>
-            <p class="formula-line">\(H_0: p_1 - p_2 = 0\)</p>
-            <p class="formula-line">\( z = \frac{\hat{p}_1 - \hat{p}_2}{\sqrt{\hat{p}(1-\hat{p})(1/n_1 + 1/n_2)}} \)</p>
-            <p class="formula-line">\(\hat{p}=\frac{x_1+x_2}{n_1+n_2}\)</p>
-        </section>
+        
 
         <section class="card content-card">
             <h2>Conceptos clave del contraste</h2>
@@ -59,12 +53,14 @@
         </section>
 
         <section class="card content-card">
-            <h2>¿Por qué se usa la proporción combinada \(\hat{p}\)?</h2>
-            <p>Bajo \(H_0\), ambas muestras comparten la misma proporción poblacional desconocida. La estimación conjunta natural de esa proporción común es \(\hat{p}=(x_1+x_2)/(n_1+n_2)\).</p>
-            <p>Por eso el error estándar del contraste se construye con \(\hat{p}\), coherente con la hipótesis nula de igualdad \(p_1=p_2\).</p>
+            <h2>Descripción</h2>
+            <p>Se usa cuando comparas dos grupos independientes con resultados binarios. En \(H_0\), se asume \(p_1 = p_2\) y se utiliza una proporción combinada para el error estándar.</p>
+            <p class="formula-line">\(H_0: p_1 - p_2 = 0\)</p>
+            <p class="formula-line">\( z = \frac{\hat{p}_1 - \hat{p}_2}{\sqrt{\hat{p}(1-\hat{p})(1/n_1 + 1/n_2)}} \)</p>
+            <p class="formula-line">\(\hat{p}=\frac{x_1+x_2}{n_1+n_2}\)</p>
         </section>
 
-        <section class="card sample-size-panel">
+<section class="card sample-size-panel">
             <div class="panel-heading">
                 <h2>Calculadora</h2>
                 <p>Introduce éxitos y tamaño muestral de cada grupo para obtener p-valor y decisión.</p>
@@ -97,6 +93,14 @@
             <div class="chart-wrap">
                 <canvas id="twoPropTestChart" aria-label="Gráfico de zonas de aceptación y rechazo para el contraste de dos proporciones" role="img"></canvas>
             </div>
+        </section>
+
+        
+
+        <section class="card content-card">
+            <h2>Contraste rápido</h2>
+            <p>Bajo \(H_0\), ambas muestras comparten la misma proporción poblacional desconocida. La estimación conjunta natural de esa proporción común es \(\hat{p}=(x_1+x_2)/(n_1+n_2)\).</p>
+            <p>Por eso el error estándar del contraste se construye con \(\hat{p}\), coherente con la hipótesis nula de igualdad \(p_1=p_2\).</p>
         </section>
     
         <section id="seo-support-content" class="card content-card">

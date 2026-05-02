@@ -40,12 +40,7 @@
     </header>
 
     <main>
-        <section class="card content-card">
-            <h2>Descripción</h2>
-            <p>Este contraste se utiliza para evaluar si dos medias poblacionales son iguales cuando se comparan dos grupos independientes y no se asume varianza común.</p>
-            <p class="formula-line">\(H_0: \mu_1 - \mu_2 = 0\)</p>
-            <p class="formula-line">\( t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{s_1^2/n_1 + s_2^2/n_2}} \)</p>
-        </section>
+        
 
         <section class="card content-card">
             <h2>Conceptos clave del contraste</h2>
@@ -58,12 +53,13 @@
         </section>
 
         <section class="card content-card">
-            <h2>¿Por qué aquí se usa Welch?</h2>
-            <p>Se utiliza la fórmula de Welch porque no obliga a suponer varianzas iguales entre grupos. En práctica aplicada, es una opción robusta cuando \(s_1\) y \(s_2\), o \(n_1\) y \(n_2\), son distintos.</p>
-            <p>Por eso también se usan grados de libertad aproximados (Welch-Satterthwaite), que pueden no ser enteros.</p>
+            <h2>Descripción</h2>
+            <p>Este contraste se utiliza para evaluar si dos medias poblacionales son iguales cuando se comparan dos grupos independientes y no se asume varianza común.</p>
+            <p class="formula-line">\(H_0: \mu_1 - \mu_2 = 0\)</p>
+            <p class="formula-line">\( t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{s_1^2/n_1 + s_2^2/n_2}} \)</p>
         </section>
 
-        <section class="card sample-size-panel">
+<section class="card sample-size-panel">
             <div class="panel-heading">
                 <h2>Calculadora</h2>
                 <p>Introduce medias, desviaciones y tamaños muestrales de ambos grupos.</p>
@@ -100,6 +96,14 @@
             <div class="chart-wrap">
                 <canvas id="twoMeansTestChart" aria-label="Gráfico de zonas de aceptación y rechazo para el contraste de dos medias" role="img"></canvas>
             </div>
+        </section>
+
+        
+
+        <section class="card content-card">
+            <h2>Contraste rápido</h2>
+            <p>Se utiliza la fórmula de Welch porque no obliga a suponer varianzas iguales entre grupos. En práctica aplicada, es una opción robusta cuando \(s_1\) y \(s_2\), o \(n_1\) y \(n_2\), son distintos.</p>
+            <p>Por eso también se usan grados de libertad aproximados (Welch-Satterthwaite), que pueden no ser enteros.</p>
         </section>
     
         <section id="seo-support-content" class="card content-card">

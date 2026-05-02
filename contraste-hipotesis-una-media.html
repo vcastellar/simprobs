@@ -40,6 +40,18 @@
     </header>
 
     <main>
+        
+
+        <section class="card content-card">
+            <h2>Conceptos clave del contraste</h2>
+            <p><strong>¿Qué es un contraste de hipótesis?</strong> Es un procedimiento para decidir si los datos observados son compatibles con una afirmación inicial \(H_0\). Si los datos son muy improbables bajo \(H_0\), se rechaza \(H_0\).</p>
+            <ul>
+                <li><strong>Error tipo I (\(\alpha\)):</strong> probabilidad de rechazar \(H_0\) cuando en realidad era cierta (falso positivo).</li>
+                <li><strong>Error tipo II (\(\beta\)):</strong> probabilidad de no rechazar \(H_0\) cuando en realidad era falsa (falso negativo).</li>
+                <li><strong>Potencia (\(1-\beta\)):</strong> probabilidad de detectar una diferencia real cuando existe. Sube con mayor tamaño muestral, mayor efecto real o un \(\alpha\) más grande.</li>
+            </ul>
+        </section>
+
         <section class="card content-card">
             <h2>Descripción</h2>
             <p>Este contraste se usa cuando quieres comprobar si la media poblacional es igual a un valor de referencia \(\mu_0\). En la práctica hay dos casos: si conoces la desviación típica poblacional \(\sigma\), se usa un contraste z; si no la conoces y la estimas con la desviación muestral \(s\), se usa el contraste t de Student.</p>
@@ -58,33 +70,7 @@
             </ul>
         </section>
 
-        <section class="card content-card">
-            <h2>Conceptos clave del contraste</h2>
-            <p><strong>¿Qué es un contraste de hipótesis?</strong> Es un procedimiento para decidir si los datos observados son compatibles con una afirmación inicial \(H_0\). Si los datos son muy improbables bajo \(H_0\), se rechaza \(H_0\).</p>
-            <ul>
-                <li><strong>Error tipo I (\(\alpha\)):</strong> probabilidad de rechazar \(H_0\) cuando en realidad era cierta (falso positivo).</li>
-                <li><strong>Error tipo II (\(\beta\)):</strong> probabilidad de no rechazar \(H_0\) cuando en realidad era falsa (falso negativo).</li>
-                <li><strong>Potencia (\(1-\beta\)):</strong> probabilidad de detectar una diferencia real cuando existe. Sube con mayor tamaño muestral, mayor efecto real o un \(\alpha\) más grande.</li>
-            </ul>
-        </section>
-
-        <section class="card content-card">
-            <h2>¿Por qué hay dos fórmulas en este contraste?</h2>
-            <p><strong>Contraste z</strong>: se usa cuando \(\sigma\) poblacional es conocida. El estadístico sigue una normal estándar bajo \(H_0\).</p>
-            <p><strong>Contraste t</strong>: se usa cuando \(\sigma\) es desconocida y se sustituye por \(s\). Esa incertidumbre extra se modela con la t de Student con \(n-1\) grados de libertad.</p>
-            <p>Cuando \(n\) crece, la t se parece mucho a la normal, por eso ambos métodos convergen con muestras grandes.</p>
-        </section>
-
-        <section class="card content-card">
-            <h2>Interpretación rápida</h2>
-            <ul>
-                <li>Si el <strong>p-valor</strong> es menor que \(\alpha\), se rechaza \(H_0\).</li>
-                <li>Si el p-valor es mayor o igual que \(\alpha\), no hay evidencia suficiente para rechazar \(H_0\).</li>
-                <li>Un resultado no significativo no demuestra que \(H_0\) sea verdadera.</li>
-            </ul>
-        </section>
-
-        <section class="card sample-size-panel">
+<section class="card sample-size-panel">
             <div class="panel-heading">
                 <h2>Calculadora</h2>
                 <p>Introduce tus datos para obtener estadístico (z o t), p-valor y decisión del contraste.</p>
@@ -141,6 +127,26 @@
             <div class="chart-wrap">
                 <canvas id="meanTestChart" aria-label="Gráfico de zonas de aceptación y rechazo para el contraste de una media" role="img"></canvas>
             </div>
+        </section>
+
+        
+
+        <section class="card content-card">
+            <h2>Contraste rápido</h2>
+            <ul>
+                <li>Si el <strong>p-valor</strong> es menor que \(\alpha\), se rechaza \(H_0\).</li>
+                <li>Si el p-valor es mayor o igual que \(\alpha\), no hay evidencia suficiente para rechazar \(H_0\).</li>
+                <li>Un resultado no significativo no demuestra que \(H_0\) sea verdadera.</li>
+            </ul>
+        </section>
+
+        
+
+        <section class="card content-card">
+            <h2>¿Por qué hay dos fórmulas en este contraste?</h2>
+            <p><strong>Contraste z</strong>: se usa cuando \(\sigma\) poblacional es conocida. El estadístico sigue una normal estándar bajo \(H_0\).</p>
+            <p><strong>Contraste t</strong>: se usa cuando \(\sigma\) es desconocida y se sustituye por \(s\). Esa incertidumbre extra se modela con la t de Student con \(n-1\) grados de libertad.</p>
+            <p>Cuando \(n\) crece, la t se parece mucho a la normal, por eso ambos métodos convergen con muestras grandes.</p>
         </section>
     
         <section id="seo-support-content" class="card content-card">

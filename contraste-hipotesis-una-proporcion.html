@@ -40,12 +40,7 @@
     </header>
 
     <main>
-        <section class="card content-card">
-            <h2>Descripción</h2>
-            <p>El contraste para una proporción se aplica cuando cada observación tiene dos resultados posibles (éxito/fracaso) y quieres evaluar si la proporción poblacional es \(p_0\).</p>
-            <p class="formula-line">\(H_0: p = p_0\)</p>
-            <p class="formula-line">\( z = \frac{\hat{p} - p_0}{\sqrt{p_0(1-p_0)/n}} \)</p>
-        </section>
+        
 
         <section class="card content-card">
             <h2>Conceptos clave del contraste</h2>
@@ -58,12 +53,13 @@
         </section>
 
         <section class="card content-card">
-            <h2>¿Por qué aquí se usa esta fórmula?</h2>
-            <p>Bajo \(H_0\), la variabilidad de \(\hat{p}\) viene dada por \(p_0(1-p_0)/n\). Por eso el denominador usa \(p_0\): estamos evaluando compatibilidad con la hipótesis nula concreta.</p>
-            <p>La aproximación normal es razonable cuando \(n p_0\) y \(n(1-p_0)\) son suficientemente grandes (regla práctica: al menos 5 o 10).</p>
+            <h2>Descripción</h2>
+            <p>El contraste para una proporción se aplica cuando cada observación tiene dos resultados posibles (éxito/fracaso) y quieres evaluar si la proporción poblacional es \(p_0\).</p>
+            <p class="formula-line">\(H_0: p = p_0\)</p>
+            <p class="formula-line">\( z = \frac{\hat{p} - p_0}{\sqrt{p_0(1-p_0)/n}} \)</p>
         </section>
 
-        <section class="card sample-size-panel">
+<section class="card sample-size-panel">
             <div class="panel-heading">
                 <h2>Calculadora</h2>
                 <p>Calcula z, p-valor y la decisión del contraste para una proporción.</p>
@@ -105,6 +101,14 @@
             <div class="chart-wrap">
                 <canvas id="propTestChart" aria-label="Gráfico de zonas de aceptación y rechazo para el contraste de una proporción" role="img"></canvas>
             </div>
+        </section>
+
+        
+
+        <section class="card content-card">
+            <h2>Contraste rápido</h2>
+            <p>Bajo \(H_0\), la variabilidad de \(\hat{p}\) viene dada por \(p_0(1-p_0)/n\). Por eso el denominador usa \(p_0\): estamos evaluando compatibilidad con la hipótesis nula concreta.</p>
+            <p>La aproximación normal es razonable cuando \(n p_0\) y \(n(1-p_0)\) son suficientemente grandes (regla práctica: al menos 5 o 10).</p>
         </section>
     
         <section id="seo-support-content" class="card content-card">
