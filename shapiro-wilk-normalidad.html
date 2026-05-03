@@ -87,6 +87,11 @@
                         <label for="alpha">Nivel de significación (α)</label>
                         <input type="number" id="alpha" value="0.05" step="0.001" min="0.0001" max="0.2">
                     </div>
+
+                    <div class="form-group">
+                        <label for="mcSeed">Semilla aleatoria (opcional)</label>
+                        <input type="number" id="mcSeed" value="12345" step="1" min="0">
+                    </div>
                 </div>
             </div>
 
@@ -96,7 +101,7 @@
             <div class="chart-wrap">
                 <canvas id="shapiroChart" aria-label="Gráfico comparativo entre p-valor y nivel de significación" role="img"></canvas>
             </div>
-            <p class="chart-note"><strong>Cómo leer el gráfico:</strong> el eje X es el valor de \(W\) y el eje Y es solo frecuencia de simulaciones. Las barras azules son la distribución simulada bajo \(H_0\). El marcador rojo indica el \(W\) observado y el verde el \(W\) crítico para \(\alpha\). <strong>Importante:</strong> compara solo su posición horizontal (eje X); la altura de esos marcadores no tiene interpretación estadística, se usa solo para que se vean sobre el histograma. Si el rojo queda a la izquierda (o igual) del verde, se rechaza \(H_0\).</p>
+            <p class="chart-note"><strong>Cómo leer el gráfico (paso a paso):</strong> 1) La simulación Monte Carlo genera muchas muestras normales bajo \(H_0\) del mismo tamaño que tu muestra y calcula un \(W\) en cada una. 2) Las <strong>barras azules</strong> cuentan cuántas simulaciones cayeron en cada rango de \(W\): por eso su eje Y es frecuencia y su eje X es valor de \(W\). 3) El marcador <strong>rojo</strong> señala tu \(W\) observado y el <strong>verde</strong> el \(W\) crítico para \(\alpha\). <strong>Solo importa su posición horizontal (X)</strong>; su altura vertical se fija artificialmente para que se vean sobre las barras.</p>
         </section>
 
         <section class="card content-card">
@@ -214,11 +219,22 @@
 <script>
 let shapiroChart;
 
+let rngState = 12345;
+
+function setSeed(seed) {
+  rngState = (seed >>> 0) || 12345;
+}
+
+function randomUniform() {
+  rngState = (1664525 * rngState + 1013904223) >>> 0;
+  return rngState / 4294967296;
+}
+
 function randomNormal() {
   let u = 0;
   let v = 0;
-  while (u === 0) u = Math.random();
-  while (v === 0) v = Math.random();
+  while (u === 0) u = randomUniform();
+  while (v === 0) v = randomUniform();
   return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
 }
 
@@ -293,11 +309,15 @@ document.getElementById('calcShapiroBtn').addEventListener('click', () => {
   const B = parseInt(document.getElementById('mcIter').value, 10);
   const alpha = parseFloat(document.getElementById('alpha').value);
   const n = sample.length;
+  const seedRaw = document.getElementById('mcSeed').value;
+  const seed = seedRaw === '' ? 12345 : parseInt(seedRaw, 10);
 
   if (n < 3) { document.getElementById('shapiroResult').textContent = 'Introduce al menos 3 observaciones válidas.'; return; }
   if (Number.isNaN(B) || B < 1000 || B > 100000) { document.getElementById('shapiroResult').textContent = 'B debe estar entre 1000 y 100000.'; return; }
   if (Number.isNaN(alpha) || alpha <= 0 || alpha >= 1) { document.getElementById('shapiroResult').textContent = 'El nivel α debe estar entre 0 y 1.'; return; }
+  if (Number.isNaN(seed) || seed < 0) { document.getElementById('shapiroResult').textContent = 'La semilla debe ser un entero ≥ 0.'; return; }
 
+  setSeed(seed);
   const wObs = computeShapiroW(sample);
   const wSim = simulateShapiroDistribution(n, B);
   const pValue = wSim.filter(w => w <= wObs).length / B;
@@ -313,7 +333,7 @@ document.getElementById('calcShapiroBtn').addEventListener('click', () => {
 
   document.getElementById('shapiroNotes').innerHTML =
     `Región de rechazo: W ≤ ${wCrit.toFixed(4)} (cola izquierda).<br>` +
-    `En la simulación se usaron ${B.toLocaleString('es-ES')} muestras normales bajo H₀.`;
+    `En la simulación se usaron ${B.toLocaleString('es-ES')} muestras normales bajo H₀ con semilla ${seed}.`;
 
   drawShapiroChart(wSim, wObs, wCrit);
 });
